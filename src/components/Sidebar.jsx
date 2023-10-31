@@ -65,7 +65,7 @@ export default function Sidebar() {
           </ListItem>
           <AccordionBody className="py-1">
             <List className="p-0 ml-5">
-              <Link to="/root/student">
+              <Link to="/root/students">
                 <ListItem>
                   <ListItemPrefix>
                     <PiStudent className="h-5 w-5" />
@@ -73,7 +73,7 @@ export default function Sidebar() {
                   Students
                 </ListItem>
               </Link>
-              <Link to="/root/student">
+              <Link to="/root/teachers">
                 <ListItem>
                   <ListItemPrefix>
                     <PiChalkboardTeacherDuotone className="h-5 w-5" />
@@ -110,7 +110,7 @@ export default function Sidebar() {
           </ListItem>
           <AccordionBody className="py-1">
             <List className="p-0 ml-5">
-              <Link to="/root/student">
+              <Link to="/root/categorey">
                 <ListItem>
                   <ListItemPrefix>
                     <AiOutlinePlus className="h-5 w-5" />
@@ -118,7 +118,7 @@ export default function Sidebar() {
                   Add Categorey
                 </ListItem>
               </Link>
-              <Link to="/root/student">
+              <Link to="/root/tools">
                 <ListItem>
                   <ListItemPrefix>
                     <AiOutlinePlus className="h-5 w-5" />
@@ -126,7 +126,7 @@ export default function Sidebar() {
                   Add Tools
                 </ListItem>
               </Link>
-              <Link to="/root/student">
+              <Link to="/root/course">
                 <ListItem>
                   <ListItemPrefix>
                     <AiOutlinePlus className="h-5 w-5" />
