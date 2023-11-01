@@ -8,7 +8,6 @@ export default function AddCategorey() {
   const [name, setName] = useState("");
   const accessToken = localStorage.getItem("accessToken");
   const [categories, setCategories] = useState([]);
-  // console.log(categories);
   // get categories
   useEffect(() => {
     setDataLoading(true);
@@ -41,19 +40,17 @@ export default function AddCategorey() {
     };
 
     fetchData();
-  }, []);
+  }, [postLoading]);
 
   //add categorey
   const handleAddCategorey = async () => {
     const formData = new FormData();
-    console.log(icon, name);
     formData.append("icon", icon);
     formData.append("name", name);
     try {
       setPostLoading(true);
       // Create headers with the Authorization token
       const headers = new Headers({
-        "Content-Type": "multipart/form-data",
         Authorization: `Bearer ${accessToken}`,
       });
       // Make a POST request using the fetch method
@@ -69,6 +66,7 @@ export default function AddCategorey() {
       if (response.ok) {
         const responseData = await response.json();
         console.log(responseData);
+        window.alert("Categorey Added Successfully!")
       } else {
         console.log(
           "Error making POST request. Status code: " + response.status
@@ -83,7 +81,7 @@ export default function AddCategorey() {
   return (
     <section className="px-5 py-10 min-h-screen lg:flex">
       <form className="lg:w-1/3 shadow p-5 h-fit flex flex-col gap-4">
-        <h5>Add Categorey</h5>
+        <h5 className="font-semibold text-xl">Add Categorey</h5>
         <input
           name="icon"
           type="file"
@@ -101,19 +99,19 @@ export default function AddCategorey() {
         </Button>
       </form>
       <div className="min-h-screen lg:w-2/3 mt-5 md:mt-0 bg-light-blue-50 rounded-xl p-5">
-        <p>Categorey List</p>
-        <div>
+        <h5 className="font-semibold text-xl">Categorey List</h5>
+        <div className="mt-5">
           {dataLoading ? (
             "Loading Data ..."
           ) : (
-            <>
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
               {categories?.map((c, i) => (
-                <div key={i}>
-                  <img src={c?.icon} alt="" />
+                <div key={i} className="flex  gap-2 p-2.5 bg-white rounded items-center">
+                  <img src={c?.icon} className="h-[50px] w-[50px] rounded-full" alt="" />
                   <p>{c?.name}</p>
                 </div>
               ))}
-            </>
+            </div>
           )}
         </div>
       </div>
