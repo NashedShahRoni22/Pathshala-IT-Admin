@@ -15,6 +15,7 @@ import { AiOutlineDelete, AiFillEye } from "react-icons/ai";
 export default function AddCourse() {
   // get data
   const accessToken = localStorage.getItem("accessToken");
+  const [postLoading, setPostLoading] = useState(false);
   const [categories, setCategories] = useState([]);
   const [tools, setTools] = useState([]);
   // dialogue management
@@ -35,7 +36,7 @@ export default function AddCourse() {
   const [onlineFee, setonlineFee] = useState("");
   const [offlineFee, setofflineFee] = useState("");
   const [discountAmount, setdiscountAmount] = useState("");
-  const [discountType, setdiscountType] = useState("");
+  // const [discountType, setdiscountType] = useState("");
   const [duration, setduration] = useState("");
   const [lectures, setlectures] = useState("");
   const [projects, setprojects] = useState("");
@@ -48,7 +49,7 @@ export default function AddCourse() {
   const [curriculums, setCurriculums] = React.useState("");
   const onCurriculumChange = ({ target }) => setCurriculum(target.value);
   const addCurriculums = () => {
-    const newsetCurriculums = [...curriculums,  curriculum ];
+    const newsetCurriculums = [...curriculums, curriculum];
     setCurriculums(newsetCurriculums);
     setCurriculum("");
   };
@@ -63,7 +64,7 @@ export default function AddCourse() {
   const [positions, setPositions] = React.useState("");
   const onPositionChange = ({ target }) => setPosition(target.value);
   const addPositions = () => {
-    const newsetPositions = [...positions,  position ];
+    const newsetPositions = [...positions, position];
     setPositions(newsetPositions);
     setPosition("");
   };
@@ -167,9 +168,9 @@ export default function AddCourse() {
   }, []);
 
   //add course
-  const handleAddCourse = async()=>{
+  const handleAddCourse = async () => {
     const formData = new FormData();
-    const mergedTools = [...softwaresId, ...professionsId]
+    const mergedTools = [...softwaresId, ...professionsId];
     const postData = {
       image,
       name,
@@ -179,38 +180,38 @@ export default function AddCourse() {
       onlineFee,
       offlineFee,
       discountAmount,
-      discountType,
+      // discountType,
       duration,
       lectures,
       projects,
       opportunitie1,
       opportunitie2,
-      tools:mergedTools,
+      tools: mergedTools,
       curriculums,
       positions,
       overview,
-    }
+    };
     console.log(postData);
-    formData.append("course_image",image);
-    formData.append("category_id",categoreyId);
-    formData.append("name",name);
-    formData.append("slogan",slogan);
-    formData.append("online_amount",onlineFee);
-    formData.append("offline_amount",offlineFee);
-    formData.append("discount_amount",discountAmount);
-    formData.append("discount_type",discountType);
-    formData.append("course_type",courseType);
-    formData.append("course_overview",overview);
-    formData.append("course_curriculum",JSON.stringify(curriculums));
-    formData.append("job_position",JSON.stringify(positions));
-    formData.append("duration",duration);
-    formData.append("total_lecture",lectures);
-    formData.append("total_project",projects);
-    formData.append("tools",JSON.stringify(mergedTools));
-    formData.append("job_opportunities_1",opportunitie1);
-    formData.append("job_opportunities_2",opportunitie2);
+    formData.append("course_image", image);
+    formData.append("category_id", categoreyId);
+    formData.append("name", name);
+    formData.append("slogan", slogan);
+    formData.append("online_amount", onlineFee);
+    formData.append("offline_amount", offlineFee);
+    formData.append("discount_amount", discountAmount);
+    // formData.append("discount_type", discountType);
+    formData.append("course_type", courseType);
+    formData.append("course_overview", overview);
+    formData.append("course_curriculum", JSON.stringify(curriculums));
+    formData.append("job_position", JSON.stringify(positions));
+    formData.append("duration", duration);
+    formData.append("total_lecture", lectures);
+    formData.append("total_project", projects);
+    formData.append("tools", JSON.stringify(mergedTools));
+    formData.append("job_opportunities_1", opportunitie1);
+    formData.append("job_opportunities_2", opportunitie2);
     try {
-      // setPostLoading(true);
+      setPostLoading(true);
       // Create headers with the Authorization token
       const headers = new Headers({
         Authorization: `Bearer ${accessToken}`,
@@ -228,7 +229,7 @@ export default function AddCourse() {
       if (response.ok) {
         const responseData = await response.json();
         console.log(responseData);
-        window.alert("Course Added Successfully!")
+        window.alert("Course Added Successfully!");
       } else {
         console.log(
           "Error making POST request. Status code: " + response.status
@@ -237,9 +238,9 @@ export default function AddCourse() {
     } catch (error) {
       console.log("Error making POST request: " + error);
     } finally {
-      // setPostLoading(false);
+      setPostLoading(false);
     }
-  }
+  };
   return (
     <section className="px-5 py-10 min-h-screen">
       <div action="" className="shadow p-8">
@@ -292,11 +293,11 @@ export default function AddCourse() {
             onChange={(e) => setdiscountAmount(e.target.value)}
             type="number"
           />
-          <Input
+          {/* <Input
             label="Discount Type"
             onChange={(e) => setdiscountType(e.target.value)}
             type="number"
-          />
+          /> */}
           <Input
             label="Course Duration"
             onChange={(e) => setduration(e.target.value)}
@@ -312,15 +313,20 @@ export default function AddCourse() {
             onChange={(e) => setprojects(e.target.value)}
             type="number"
           />
-          <Input
-            label="Enter First Opportunitie"
+        </div>
+
+        <div className="mt-5 md:flex gap-5">
+          <Textarea
+            label="Enter First Opportunity"
             onChange={(e) => setopportunitie1(e.target.value)}
-            type="number"
+            type="text"
+            rows={4}
           />
-          <Input
-            label="Enter Second Opportunitie"
+          <Textarea
+            label="Enter Second Opportunity"
             onChange={(e) => setopportunitie2(e.target.value)}
-            type="number"
+            type="text"
+            rows={4}
           />
         </div>
 
@@ -611,9 +617,16 @@ export default function AddCourse() {
         </div>
 
         <div className="mt-5">
-          <Textarea onChange={e => setoverview(e.target.value)} label="Enter Overview" rows={8} className="lg:w-1/2" />
+          <Textarea
+            onChange={(e) => setoverview(e.target.value)}
+            label="Enter Overview"
+            rows={8}
+            className="lg:w-1/2"
+          />
         </div>
-        <Button onClick={handleAddCourse}>Add</Button>
+        <Button onClick={handleAddCourse}>
+          {postLoading ? "Loading..." : "Add"}
+        </Button>
       </div>
     </section>
   );

@@ -13,7 +13,7 @@ export default function Login() {
     try {
       setLoading(true);
       const data = {
-        phone_number:number,
+        phone_number: number,
         password,
       };
       // Make a POST request using the fetch method
@@ -25,9 +25,9 @@ export default function Login() {
         body: JSON.stringify(data),
       });
 
-      if (response.ok) {       
+      if (response.ok) {
         const responseData = await response.json();
-        localStorage.setItem("accessToken",responseData?.data?.access_token)
+        localStorage.setItem("accessToken", responseData?.data?.access_token);
         navigate("/root");
       } else {
         console.log(
@@ -49,8 +49,15 @@ export default function Login() {
         className="w-full md:w-1/2 lg:w-1/3 mx-5 md:mx-auto shadow flex flex-col gap-2.5 p-8 rounded-xl"
       >
         <p className="text-xl font-semibold text-center">Login</p>
-        <Input color="blue" label="Phone Number" type="number" name="number" />
         <Input
+          required
+          color="blue"
+          label="Phone Number"
+          type="number"
+          name="number"
+        />
+        <Input
+          required
           color="blue"
           label="Enter Password"
           type="password"

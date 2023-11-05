@@ -18,6 +18,7 @@ import { HiOutlinePresentationChartLine } from "react-icons/hi";
 import { FiUsers } from "react-icons/fi";
 import { BsChevronDown, BsFillCollectionPlayFill } from "react-icons/bs";
 import { AiOutlinePlus } from "react-icons/ai";
+import { GiConvergenceTarget } from "react-icons/gi";
 import { PiStudent, PiChalkboardTeacherDuotone } from "react-icons/pi";
 
 export default function Sidebar() {
@@ -126,12 +127,20 @@ export default function Sidebar() {
                   Add Tools
                 </ListItem>
               </Link>
-              <Link to="/root/course">
+              <Link to="/root/add_course">
                 <ListItem>
                   <ListItemPrefix>
                     <AiOutlinePlus className="h-5 w-5" />
                   </ListItemPrefix>
                   Add Course
+                </ListItem>
+              </Link>
+              <Link to="/root/all_course">
+                <ListItem>
+                  <ListItemPrefix>
+                    <GiConvergenceTarget className="h-5 w-5" />
+                  </ListItemPrefix>
+                  Get Course
                 </ListItem>
               </Link>
             </List>

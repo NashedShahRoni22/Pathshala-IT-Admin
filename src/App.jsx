@@ -9,6 +9,7 @@ import AddCategorey from "./pages/AddCategorey";
 import AddTools from "./pages/AddTools";
 import AddCourse from "./pages/AddCourse";
 import Teachers from "./pages/Teachers";
+import GetCourses from "./pages/GetCourses";
 
 export default function App() {
   const router = createBrowserRouter([
@@ -45,8 +46,12 @@ export default function App() {
           element: <AddTools />,
         },
         {
-          path: "/root/course",
+          path: "/root/add_course",
           element: <AddCourse />,
+        },
+        {
+          path: "/root/all_course",
+          element: <GetCourses />,
         },
       ],
     },
