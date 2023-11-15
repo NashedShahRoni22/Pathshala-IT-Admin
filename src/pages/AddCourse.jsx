@@ -43,6 +43,7 @@ export default function AddCourse() {
   const [opportunitie1, setopportunitie1] = useState("");
   const [opportunitie2, setopportunitie2] = useState("");
   const [overview, setoverview] = useState("");
+  const [description, setdescription] = useState("");
 
   // curriculum
   const [curriculum, setCurriculum] = React.useState("");
@@ -190,8 +191,9 @@ export default function AddCourse() {
       curriculums,
       positions,
       overview,
+      description,
     };
-    console.log(postData);
+    // console.log(postData);
     formData.append("course_image", image);
     formData.append("category_id", categoreyId);
     formData.append("name", name);
@@ -202,6 +204,7 @@ export default function AddCourse() {
     // formData.append("discount_type", discountType);
     formData.append("course_type", courseType);
     formData.append("course_overview", overview);
+    formData.append("description", description);
     formData.append("course_curriculum", JSON.stringify(curriculums));
     formData.append("job_position", JSON.stringify(positions));
     formData.append("duration", duration);
@@ -226,10 +229,10 @@ export default function AddCourse() {
         }
       );
 
-      if (response.ok) {
-        const responseData = await response.json();
-        console.log(responseData);
-        window.alert("Course Added Successfully!");
+      const responseData = await response.json();
+      if (responseData.status === true) {
+        window.alert("Course added successfully!");
+        window.location.reload();
       } else {
         console.log(
           "Error making POST request. Status code: " + response.status
@@ -616,15 +619,19 @@ export default function AddCourse() {
           </div>
         </div>
 
-        <div className="mt-5">
+        <div className="mt-5 flex flex-col lg:flex-row gap-5">
           <Textarea
             onChange={(e) => setoverview(e.target.value)}
             label="Enter Overview"
             rows={8}
-            className="lg:w-1/2"
+          />
+          <Textarea
+            onChange={(e) => setdescription(e.target.value)}
+            label="Enter Description"
+            rows={8}
           />
         </div>
-        <Button onClick={handleAddCourse}>
+        <Button onClick={handleAddCourse} className="mt-5">
           {postLoading ? "Loading..." : "Add"}
         </Button>
       </div>
