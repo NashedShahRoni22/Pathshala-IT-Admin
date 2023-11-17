@@ -17,7 +17,7 @@ import {
 import { HiOutlinePresentationChartLine } from "react-icons/hi";
 import { FiUsers } from "react-icons/fi";
 import { BsChevronDown, BsFillCollectionPlayFill } from "react-icons/bs";
-import { AiOutlinePlus } from "react-icons/ai";
+import { AiFillCustomerService, AiOutlinePlus } from "react-icons/ai";
 import { GiConvergenceTarget } from "react-icons/gi";
 import { PiStudent, PiChalkboardTeacherDuotone } from "react-icons/pi";
 
@@ -133,6 +133,67 @@ export default function Sidebar() {
                     <AiOutlinePlus className="h-5 w-5" />
                   </ListItemPrefix>
                   Add Course
+                </ListItem>
+              </Link>
+              <Link to="/root/all_course">
+                <ListItem>
+                  <ListItemPrefix>
+                    <GiConvergenceTarget className="h-5 w-5" />
+                  </ListItemPrefix>
+                  Get Course
+                </ListItem>
+              </Link>
+            </List>
+          </AccordionBody>
+        </Accordion>
+        <Accordion
+          open={open === 3}
+          icon={
+            <BsChevronDown
+              strokeWidth={1}
+              className={`mx-auto h-4 w-4 transition-transform ${
+                open === 2 ? "rotate-180" : ""
+              }`}
+            />
+          }
+        >
+          <ListItem className="p-0" selected={open === 3}>
+            <AccordionHeader
+              onClick={() => handleOpen(3)}
+              className="border-b-0 p-3"
+            >
+              <ListItemPrefix>
+                <AiFillCustomerService className="h-5 w-5" />
+              </ListItemPrefix>
+              <Typography color="blue-gray" className="mr-auto font-normal">
+                Manage Service
+              </Typography>
+            </AccordionHeader>
+          </ListItem>
+          <AccordionBody className="py-1">
+            <List className="p-0 ml-5">
+              <Link to="/root/categorey">
+                <ListItem>
+                  <ListItemPrefix>
+                    <AiOutlinePlus className="h-5 w-5" />
+                  </ListItemPrefix>
+                  Add Categorey
+                </ListItem>
+              </Link>
+              <Link to="/root/tools">
+                <ListItem>
+                  <ListItemPrefix>
+                    <AiOutlinePlus className="h-5 w-5" />
+                  </ListItemPrefix>
+                  Add Tools
+                </ListItem>
+              </Link>
+              <Link to="/root/add_course">
+                <ListItem>
+                  <ListItemPrefix>
+                    <AiOutlinePlus className="h-5 w-5" />
+                  </ListItemPrefix>
+                  Add Service
                 </ListItem>
               </Link>
               <Link to="/root/all_course">

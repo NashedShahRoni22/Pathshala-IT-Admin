@@ -64,7 +64,7 @@ export default function Login() {
           name="password"
         />
         <Button color="blue" type="submit">
-          {loading ? "Loading ..." : "Login"}
+          {loading ? "Loading" : "Login"}
         </Button>
       </form>
     </section>
