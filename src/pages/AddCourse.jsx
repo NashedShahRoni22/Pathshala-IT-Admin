@@ -33,10 +33,9 @@ export default function AddCourse() {
   const [categoreyId, setCategoreyId] = useState("");
   const [courseType, setCourseType] = useState("");
   const [slogan, setslogan] = useState("");
-  const [onlineFee, setonlineFee] = useState("");
-  const [offlineFee, setofflineFee] = useState("");
   const [discountAmount, setdiscountAmount] = useState("");
-  // const [discountType, setdiscountType] = useState("");
+  const [amount, setAmount] = useState("");
+
   const [duration, setduration] = useState("");
   const [lectures, setlectures] = useState("");
   const [projects, setprojects] = useState("");
@@ -178,10 +177,8 @@ export default function AddCourse() {
       categoreyId,
       courseType,
       slogan,
-      onlineFee,
-      offlineFee,
+      amount,
       discountAmount,
-      // discountType,
       duration,
       lectures,
       projects,
@@ -198,10 +195,8 @@ export default function AddCourse() {
     formData.append("category_id", categoreyId);
     formData.append("name", name);
     formData.append("slogan", slogan);
-    formData.append("online_amount", onlineFee);
-    formData.append("offline_amount", offlineFee);
+    formData.append("amount", amount);
     formData.append("discount_amount", discountAmount);
-    // formData.append("discount_type", discountType);
     formData.append("course_type", courseType);
     formData.append("course_overview", overview);
     formData.append("description", description);
@@ -282,13 +277,8 @@ export default function AddCourse() {
             onChange={(e) => setslogan(e.target.value)}
           />
           <Input
-            label="Online Fee"
-            onChange={(e) => setonlineFee(e.target.value)}
-            type="number"
-          />
-          <Input
-            label="Offline Fee"
-            onChange={(e) => setofflineFee(e.target.value)}
+            label="Amount"
+            onChange={(e) => setAmount(e.target.value)}
             type="number"
           />
           <Input
@@ -296,11 +286,6 @@ export default function AddCourse() {
             onChange={(e) => setdiscountAmount(e.target.value)}
             type="number"
           />
-          {/* <Input
-            label="Discount Type"
-            onChange={(e) => setdiscountType(e.target.value)}
-            type="number"
-          /> */}
           <Input
             label="Course Duration"
             onChange={(e) => setduration(e.target.value)}

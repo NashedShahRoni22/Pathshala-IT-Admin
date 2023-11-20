@@ -1,6 +1,7 @@
 import { Button, Input } from "@material-tailwind/react";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 export default function Login() {
   const navigate = useNavigate();
@@ -24,15 +25,12 @@ export default function Login() {
         },
         body: JSON.stringify(data),
       });
-
-      if (response.ok) {
-        const responseData = await response.json();
+      const responseData = await response.json();
+      if (responseData.status === true) {
         localStorage.setItem("accessToken", responseData?.data?.access_token);
         navigate("/root");
       } else {
-        console.log(
-          "Error making POST request. Status code: " + response.status
-        );
+        window.alert(response.message);
       }
     } catch (error) {
       console.log("Error making POST request: " + error);

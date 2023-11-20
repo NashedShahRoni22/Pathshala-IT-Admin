@@ -10,6 +10,8 @@ import AddTools from "./pages/AddTools";
 import AddCourse from "./pages/AddCourse";
 import Teachers from "./pages/Teachers";
 import GetCourses from "./pages/GetCourses";
+import AddService from "./pages/AddService";
+import Order from "./pages/Order";
 
 export default function App() {
   const router = createBrowserRouter([
@@ -52,6 +54,14 @@ export default function App() {
         {
           path: "/root/all_course",
           element: <GetCourses />,
+        },
+        {
+          path: "/root/add_service",
+          element: <AddService />,
+        },
+        {
+          path: "/root/enrollment_request",
+          element: <Order />,
         },
       ],
     },

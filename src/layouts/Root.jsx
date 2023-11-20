@@ -9,14 +9,14 @@ export default function Root() {
   const openDrawer = () => setOpen(true);
   const closeDrawer = () => setOpen(false);
   return (
-    <main className="flex">
-      <div className="hidden md:block">
+    <main className="lg:flex">
+      <div className="hidden lg:block">
         <Sidebar />
       </div>
       <div className="flex-1">
         <Outlet />
       </div>
-      <div className="md:hidden">
+      <div className="lg:hidden">
         <button onClick={openDrawer} className="absolute top-2 left-2">
           <FaBars className="text-3xl" />
         </button>

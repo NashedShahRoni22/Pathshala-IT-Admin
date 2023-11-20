@@ -17,7 +17,7 @@ import {
 import { HiOutlinePresentationChartLine } from "react-icons/hi";
 import { FiUsers } from "react-icons/fi";
 import { BsChevronDown, BsFillCollectionPlayFill } from "react-icons/bs";
-import { AiFillCustomerService, AiOutlinePlus } from "react-icons/ai";
+import { AiFillCustomerService, AiOutlineOrderedList, AiOutlinePlus } from "react-icons/ai";
 import { GiConvergenceTarget } from "react-icons/gi";
 import { PiStudent, PiChalkboardTeacherDuotone } from "react-icons/pi";
 
@@ -38,6 +38,14 @@ export default function Sidebar() {
               <HiOutlinePresentationChartLine className="h-5 w-5" />
             </ListItemPrefix>
             Dashboard
+          </ListItem>
+        </Link>
+        <Link to="/root/enrollment_request">
+          <ListItem>
+            <ListItemPrefix>
+              <AiOutlineOrderedList className="h-5 w-5" />
+            </ListItemPrefix>
+            Enrollment Request
           </ListItem>
         </Link>
         <Accordion
@@ -140,7 +148,7 @@ export default function Sidebar() {
                   <ListItemPrefix>
                     <GiConvergenceTarget className="h-5 w-5" />
                   </ListItemPrefix>
-                  Get Course
+                  Get Courses
                 </ListItem>
               </Link>
             </List>
@@ -180,15 +188,7 @@ export default function Sidebar() {
                   Add Categorey
                 </ListItem>
               </Link>
-              <Link to="/root/tools">
-                <ListItem>
-                  <ListItemPrefix>
-                    <AiOutlinePlus className="h-5 w-5" />
-                  </ListItemPrefix>
-                  Add Tools
-                </ListItem>
-              </Link>
-              <Link to="/root/add_course">
+              <Link to="/root/add_service">
                 <ListItem>
                   <ListItemPrefix>
                     <AiOutlinePlus className="h-5 w-5" />
@@ -201,7 +201,7 @@ export default function Sidebar() {
                   <ListItemPrefix>
                     <GiConvergenceTarget className="h-5 w-5" />
                   </ListItemPrefix>
-                  Get Course
+                  Get Services
                 </ListItem>
               </Link>
             </List>
