@@ -2,29 +2,27 @@ import { Button, Card, Typography } from "@material-tailwind/react";
 import React, { useEffect, useState } from "react";
 import Loader from "../components/Loader";
 
-export default function Order() {
-  const [orders, setOrders] = useState([]);
+export default function DiscountRequest() {
+  const [discounts, setdiscounts] = useState([]);
   const [dataLoading, setDataLoading] = useState(false);
   const accessToken = localStorage.getItem("accessToken");
-  const [approveId, setApproveId] = useState("");
+  const [discountId, setDiscountId] = useState("");
 
   const TABLE_HEAD = [
     "User Name",
     "Course Name",
-    "Amount",
-    "Method",
-    "Transection Id",
-    "Transection Number",
+    "Phone Number",
+    "Status",
     "Action",
   ];
 
-  //get orders data
+  //get discounts data
   useEffect(() => {
     setDataLoading(true);
     const fetchData = async () => {
       try {
         const response = await fetch(
-          "https://api.pathshalait.com/api/v1/order/course",
+          "https://api.pathshalait.com/api/v1/discount/list",
           {
             method: "GET",
             headers: {
@@ -34,7 +32,7 @@ export default function Order() {
         );
         if (response.ok) {
           const responseData = await response.json();
-          setOrders(responseData?.data);
+          setdiscounts(responseData?.data);
         } else {
           console.log(
             "Error making GET request. Status code: " + response.status
@@ -43,21 +41,21 @@ export default function Order() {
       } catch (error) {
         console.log("Error making GET request: " + error);
       } finally {
-        setDataLoading(false);
+        setDataLoading(false); // Set loading state to false when the request is complete
       }
     };
 
     fetchData();
   }, []);
 
-  // approve order
+  // approve discount
   useEffect(() => {
-    if (approveId !== "") {
+    if (discountId !== "") {
       setDataLoading(true);
       const fetchData = async () => {
         try {
           const response = await fetch(
-            `https://api.pathshalait.com/api/v1/order/course/approve/${approveId}`,
+            `https://api.pathshalait.com/api/v1/discount/approve/${discountId}`,
             {
               method: "GET",
               headers: {
@@ -65,13 +63,11 @@ export default function Order() {
               },
             }
           );
-
           const responseData = await response.json();
-          console.log(responseData);
 
           if (responseData.status === true) {
-            const filteredData = orders.filter((d) => d.id !== approveId);
-            setOrders(filteredData);
+            const filteredData = discounts.filter((d) => d.id !== discountId);
+            setdiscounts(filteredData);
           } else {
             console.log(
               "Error making GET request. Status code: " + response.status
@@ -86,15 +82,14 @@ export default function Order() {
 
       fetchData();
     }
-  }, [approveId]);
-
+  }, [discountId]);
   return (
     <section className="px-10 py-20">
       {dataLoading ? (
         <Loader />
       ) : (
         <>
-          <h1>Orders {orders?.length}</h1>
+          <h1>Discount Request {discounts?.length}</h1>
           <Card className="h-full w-full overflow-scroll mt-8">
             <table className="w-full min-w-max table-auto text-left">
               <thead>
@@ -116,8 +111,8 @@ export default function Order() {
                 </tr>
               </thead>
               <tbody>
-                {orders?.map((order, index) => {
-                  const isLast = index === orders.length - 1;
+                {discounts?.map((discount, index) => {
+                  const isLast = index === discounts.length - 1;
                   const classes = isLast
                     ? "p-4"
                     : "p-4 border-b border-blue-gray-50";
@@ -130,7 +125,7 @@ export default function Order() {
                           color="blue-gray"
                           className="font-normal"
                         >
-                          {order?.user_name}
+                          {discount?.name}
                         </Typography>
                       </td>
                       <td className={classes}>
@@ -139,7 +134,7 @@ export default function Order() {
                           color="blue-gray"
                           className="font-normal"
                         >
-                          {order?.course_name}
+                          {discount?.course_name}
                         </Typography>
                       </td>
                       <td className={classes}>
@@ -148,7 +143,7 @@ export default function Order() {
                           color="blue-gray"
                           className="font-normal"
                         >
-                          {order?.payments?.amount}
+                          {discount?.phone_number}
                         </Typography>
                       </td>
                       <td className={classes}>
@@ -157,36 +152,14 @@ export default function Order() {
                           href="#"
                           variant="small"
                           color="blue-gray"
-                          className="font-medium"
+                          className="font-medium px-2.5 py-1.5 shadow rounded capitalize w-fit bg-orange-500 text-white"
                         >
-                          {order?.payments?.payment_method}
-                        </Typography>
-                      </td>
-                      <td className={classes}>
-                        <Typography
-                          as="a"
-                          href="#"
-                          variant="small"
-                          color="blue-gray"
-                          className="font-medium"
-                        >
-                          {order?.payments?.transaction_id}
-                        </Typography>
-                      </td>
-                      <td className={classes}>
-                        <Typography
-                          as="a"
-                          href="#"
-                          variant="small"
-                          color="blue-gray"
-                          className="font-medium"
-                        >
-                          {order?.payments?.transaction_number}
+                          {discount?.status}
                         </Typography>
                       </td>
                       <td className={classes}>
                         <Button
-                          onClick={() => setApproveId(order?.id)}
+                          onClick={() => setDiscountId(discount?.id)}
                           color="blue"
                           size="sm"
                         >

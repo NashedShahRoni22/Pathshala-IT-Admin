@@ -4,7 +4,6 @@ import Root from "./layouts/Root";
 import Dashboard from "./pages/Dashboard";
 import Login from "./auth/Login";
 import Register from "./auth/Register";
-import Students from "./pages/Students";
 import AddCategorey from "./pages/AddCategorey";
 import AddTools from "./pages/AddTools";
 import AddCourse from "./pages/AddCourse";
@@ -12,6 +11,9 @@ import Teachers from "./pages/Teachers";
 import GetCourses from "./pages/GetCourses";
 import AddService from "./pages/AddService";
 import Order from "./pages/Order";
+import DiscountRequest from "./pages/DiscountRequest";
+import CreateBatch from "./pages/CreateBatch";
+import AssignStudents from "./pages/AssignStudents";
 
 export default function App() {
   const router = createBrowserRouter([
@@ -30,10 +32,6 @@ export default function App() {
         {
           path: "/root",
           element: <Dashboard />,
-        },
-        {
-          path: "/root/students",
-          element: <Students />,
         },
         {
           path: "/root/teachers",
@@ -62,6 +60,18 @@ export default function App() {
         {
           path: "/root/enrollment_request",
           element: <Order />,
+        },
+        {
+          path: "/root/discount_request",
+          element: <DiscountRequest />,
+        },
+        {
+          path: "/root/create_batch",
+          element: <CreateBatch />,
+        },
+        {
+          path: "/root/assign_student",
+          element: <AssignStudents />,
         },
       ],
     },

@@ -1,4 +1,4 @@
-import { Button, Input } from "@material-tailwind/react";
+import { Button, Input, Spinner } from "@material-tailwind/react";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -26,11 +26,13 @@ export default function Login() {
         body: JSON.stringify(data),
       });
       const responseData = await response.json();
+      console.log(responseData);
       if (responseData.status === true) {
         localStorage.setItem("accessToken", responseData?.data?.access_token);
         navigate("/root");
       } else {
-        window.alert(response.message);
+        window.alert("Something went wrong! Knock developer!");
+        console.log(responseData);
       }
     } catch (error) {
       console.log("Error making POST request: " + error);
@@ -61,8 +63,8 @@ export default function Login() {
           type="password"
           name="password"
         />
-        <Button color="blue" type="submit">
-          {loading ? "Loading" : "Login"}
+        <Button color="blue" type="submit" className="flex items-center justify-center gap-2.5">
+          Login {loading && <Spinner className="h-4 w-4" />}
         </Button>
       </form>
     </section>

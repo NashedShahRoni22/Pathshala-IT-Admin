@@ -9,37 +9,31 @@ import {
 } from "@material-tailwind/react";
 import React, { useEffect, useState } from "react";
 
-export default function Teachers() {
-  const [postLoading, setPostLoading] = useState(false);
-  // const [userType, setUserType] = useState("");
-  const [teachers, setTeachers] = useState([]);
-  // console.log(teachers);
-  const [designations, setDesignations] = useState([]);
-  const [designation, setDesignation] = useState("");
-  // console.log(designation);
+export default function CreateBatch() {
   const accessToken = localStorage.getItem("accessToken");
+  const [courses, setCourses] = useState([]);
+  const [teachers, setTeachers] = useState([]);
+  const [batches, setBatches] = useState([]);
+  // console.log(batches);
 
-  //add teacher
-  const handleAddUser = async (e) => {
+  const [postLoading, setPostLoading] = useState(false);
+
+  const [teacherId, setTeacherId] = useState("");
+  const [courseId, setCourseId] = useState("");
+
+  //add batch
+  const handleCreateBatch = async (e) => {
     e.preventDefault();
-    const form = e.target;
-    const name = form.name.value;
-    const number = form.number.value;
-    const password = form.password.value;
-    const postData = {
-      name,
-      phone_number: number,
-      password,
-      designation_id: designation,
-      user_type: "teacher",
-    };
-    // console.log(postData);
+    const batch_name = e.target.batch_name.value;
+    const student_capacity = e.target.student_capacity.value;
+
+    console.log(batch_name, student_capacity, teacherId, courseId);
+
     const formData = new FormData();
-    formData.append("name", name);
-    formData.append("phone_number", number);
-    formData.append("password", password);
-    formData.append("designation_id", designation);
-    formData.append("user_type", "teacher");
+    formData.append("batch_name", batch_name);
+    formData.append("student_capacity", student_capacity);
+    formData.append("teacher_id", teacherId);
+    formData.append("course_id", courseId);
     try {
       setPostLoading(true);
       // Create headers with the Authorization token
@@ -47,19 +41,19 @@ export default function Teachers() {
         Authorization: `Bearer ${accessToken}`,
       });
       // Make a POST request using the fetch method
-      const response = await fetch("https://api.pathshalait.com/api/v1/users", {
-        method: "POST",
-        headers,
-        body: formData,
-      });
+      const response = await fetch(
+        "https://api.pathshalait.com/api/v1/batch-management/batches",
+        {
+          method: "POST",
+          headers,
+          body: formData,
+        }
+      );
 
       if (response.ok) {
         const responseData = await response.json();
         console.log(responseData);
-        if (responseData.status === true) {
-          window.alert("User Added Successfully!");
-          e.target.reset();
-        }
+        window.alert("Batch created successfully!");
       } else {
         console.log(
           "Error making POST request. Status code: " + response.status
@@ -72,8 +66,40 @@ export default function Teachers() {
     }
   };
 
-  //get teacher
+  // get course
   useEffect(() => {
+    // Only call the API when accessToken is available and loading is true
+    const fetchData = async () => {
+      try {
+        const response = await fetch(
+          "https://api.pathshalait.com/api/v1/courses",
+          {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          }
+        );
+
+        if (response.ok) {
+          const responseData = await response.json();
+          setCourses(responseData?.data);
+        } else {
+          console.log(
+            "Error making GET request. Status code: " + response.status
+          );
+        }
+      } catch (error) {
+        console.log("Error making GET request: " + error);
+      } finally {
+      }
+    };
+
+    fetchData();
+  }, []);
+  // get teacher
+  useEffect(() => {
+    // Only call the API when accessToken is available and loading is true
     const fetchData = async () => {
       try {
         const response = await fetch(
@@ -103,13 +129,12 @@ export default function Teachers() {
 
     fetchData();
   }, []);
-
-  //get designation
+  // get batches
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await fetch(
-          "https://api.pathshalait.com/api/v1/designations",
+          "https://api.pathshalait.com/api/v1/batch-management/batches",
           {
             method: "GET",
             headers: {
@@ -121,7 +146,7 @@ export default function Teachers() {
         if (response.ok) {
           const responseData = await response.json();
           // console.log(responseData);
-          setDesignations(responseData?.data);
+          setBatches(responseData?.data);
         } else {
           console.log(
             "Error making GET request. Status code: " + response.status
@@ -136,55 +161,54 @@ export default function Teachers() {
     fetchData();
   }, []);
 
-  const TABLE_HEAD = ["Name", "Email", "Phone", "Action"];
+  const TABLE_HEAD = [
+    "Name",
+    "Capacity",
+    "Course",
+    "Teacher",
+    "Number",
+    "Action",
+  ];
+
   return (
     <section className="px-10 py-20">
       <form
-        className="lg:w-1/2 shadow p-5 rounded-xl flex flex-col gap-2.5"
         action=""
-        onSubmit={handleAddUser}
+        onSubmit={handleCreateBatch}
+        className="lg:w-1/2 flex flex-col gap-2.5 mt-5 shadow rounded-xl p-5"
       >
-        <h5 className="font-semibold">Add Teacher</h5>
-
+        <h1>Create Batch</h1>
+        <Input
+          type="text"
+          required
+          name="batch_name"
+          label="Enter Batch Name"
+        />
+        <Input
+          type="number"
+          required
+          name="student_capacity"
+          label="Enter Batch Capacity"
+        />
         <Select
-          label="Select Desigtaion"
-          onChange={(value) => setDesignation(value)}
+          label="Select Teacher"
+          onChange={(value) => setTeacherId(value)}
         >
-          {designations.map((d) => (
-            <Option value={d?.id}>{d?.designation_name}</Option>
+          {teachers?.map((t) => (
+            <Option key={t?.id} value={t?.id}>
+              {t?.name}
+            </Option>
           ))}
         </Select>
-
-        <Input
-          required
-          color="blue"
-          label="Enter Name"
-          type="text"
-          name="name"
-        />
-
-        <Input
-          required
-          color="blue"
-          label="Phone Number"
-          type="number"
-          name="number"
-        />
-
-        <Input
-          required
-          color="blue"
-          label="Enter Password"
-          type="password"
-          name="password"
-        />
-
-        <Button
-          color="blue"
-          type="submit"
-          className="flex items-center gap-2 justify-center"
-        >
-          Submit {postLoading && <Spinner className="h-4 w-4" />}
+        <Select label="Select Course" onChange={(value) => setCourseId(value)}>
+          {courses?.map((c) => (
+            <Option key={c.id} value={c.id}>
+              {c.name}
+            </Option>
+          ))}
+        </Select>
+        <Button type="submit" color="blue" className="flex justify-center items-center gap-2">
+          Submit {postLoading && <Spinner className="h-4 w-4"/> }
         </Button>
       </form>
       
@@ -209,8 +233,8 @@ export default function Teachers() {
             </tr>
           </thead>
           <tbody>
-            {teachers?.map((b, index) => {
-              const isLast = index === teachers.length - 1;
+            {batches?.map((b, index) => {
+              const isLast = index === batches.length - 1;
               const classes = isLast
                 ? "p-4"
                 : "p-4 border-b border-blue-gray-50";
@@ -223,7 +247,7 @@ export default function Teachers() {
                       color="blue-gray"
                       className="font-normal"
                     >
-                      {b?.name}
+                      {b?.batch_name}
                     </Typography>
                   </td>
                   <td className={classes}>
@@ -232,7 +256,7 @@ export default function Teachers() {
                       color="blue-gray"
                       className="font-normal"
                     >
-                      {b?.email}
+                      {b?.student_capacity}
                     </Typography>
                   </td>
                   <td className={classes}>
@@ -241,13 +265,33 @@ export default function Teachers() {
                       color="blue-gray"
                       className="font-normal"
                     >
-                      {b?.phone_number}
+                      {b?.course_details?.name}
                     </Typography>
                   </td>
                   <td className={classes}>
-                    <Button color="blue" size="sm">
-                      View
-                    </Button>
+                    <Typography
+                      as="a"
+                      href="#"
+                      variant="small"
+                      color="blue-gray"
+                      className="font-medium"
+                    >
+                      {b?.teacher_details?.name}
+                    </Typography>
+                  </td>
+                  <td className={classes}>
+                    <Typography
+                      as="a"
+                      href="#"
+                      variant="small"
+                      color="blue-gray"
+                      className="font-medium"
+                    >
+                      {b?.teacher_details?.phone_number}
+                    </Typography>
+                  </td>
+                  <td className={classes}>
+                    <Button color="blue" size="sm">View</Button>
                   </td>
                 </tr>
               );
