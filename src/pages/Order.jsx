@@ -67,15 +67,12 @@ export default function Order() {
           );
 
           const responseData = await response.json();
-          console.log(responseData);
 
           if (responseData.status === true) {
             const filteredData = orders.filter((d) => d.id !== approveId);
             setOrders(filteredData);
           } else {
-            console.log(
-              "Error making GET request. Status code: " + response.status
-            );
+            console.log(responseData);
           }
         } catch (error) {
           console.log("Error making GET request: " + error);
@@ -94,111 +91,117 @@ export default function Order() {
         <Loader />
       ) : (
         <>
-          <h1>Orders {orders?.length}</h1>
-          <Card className="h-full w-full overflow-scroll mt-8">
-            <table className="w-full min-w-max table-auto text-left">
-              <thead>
-                <tr>
-                  {TABLE_HEAD.map((head) => (
-                    <th
-                      key={head}
-                      className="border-b border-blue-gray-100 bg-blue-gray-50 p-4"
-                    >
-                      <Typography
-                        variant="small"
-                        color="blue-gray"
-                        className="font-normal leading-none opacity-70"
-                      >
-                        {head}
-                      </Typography>
-                    </th>
-                  ))}
-                </tr>
-              </thead>
-              <tbody>
-                {orders?.map((order, index) => {
-                  const isLast = index === orders.length - 1;
-                  const classes = isLast
-                    ? "p-4"
-                    : "p-4 border-b border-blue-gray-50";
-
-                  return (
-                    <tr key={index}>
-                      <td className={classes}>
-                        <Typography
-                          variant="small"
-                          color="blue-gray"
-                          className="font-normal"
+          {orders?.length === 0 ? (
+            <p className="text-xl font-semibold">No enrollment request yet!</p>
+          ) : (
+            <>
+              <h1>Orders {orders?.length}</h1>
+              <Card className="h-full w-full overflow-scroll mt-8">
+                <table className="w-full min-w-max table-auto text-left">
+                  <thead>
+                    <tr>
+                      {TABLE_HEAD.map((head) => (
+                        <th
+                          key={head}
+                          className="border-b border-blue-gray-100 bg-blue-gray-50 p-4"
                         >
-                          {order?.user_name}
-                        </Typography>
-                      </td>
-                      <td className={classes}>
-                        <Typography
-                          variant="small"
-                          color="blue-gray"
-                          className="font-normal"
-                        >
-                          {order?.course_name}
-                        </Typography>
-                      </td>
-                      <td className={classes}>
-                        <Typography
-                          variant="small"
-                          color="blue-gray"
-                          className="font-normal"
-                        >
-                          {order?.payments?.amount}
-                        </Typography>
-                      </td>
-                      <td className={classes}>
-                        <Typography
-                          as="a"
-                          href="#"
-                          variant="small"
-                          color="blue-gray"
-                          className="font-medium"
-                        >
-                          {order?.payments?.payment_method}
-                        </Typography>
-                      </td>
-                      <td className={classes}>
-                        <Typography
-                          as="a"
-                          href="#"
-                          variant="small"
-                          color="blue-gray"
-                          className="font-medium"
-                        >
-                          {order?.payments?.transaction_id}
-                        </Typography>
-                      </td>
-                      <td className={classes}>
-                        <Typography
-                          as="a"
-                          href="#"
-                          variant="small"
-                          color="blue-gray"
-                          className="font-medium"
-                        >
-                          {order?.payments?.transaction_number}
-                        </Typography>
-                      </td>
-                      <td className={classes}>
-                        <Button
-                          onClick={() => setApproveId(order?.id)}
-                          color="blue"
-                          size="sm"
-                        >
-                          Approve
-                        </Button>
-                      </td>
+                          <Typography
+                            variant="small"
+                            color="blue-gray"
+                            className="font-normal leading-none opacity-70"
+                          >
+                            {head}
+                          </Typography>
+                        </th>
+                      ))}
                     </tr>
-                  );
-                })}
-              </tbody>
-            </table>
-          </Card>
+                  </thead>
+                  <tbody>
+                    {orders?.map((order, index) => {
+                      const isLast = index === orders.length - 1;
+                      const classes = isLast
+                        ? "p-4"
+                        : "p-4 border-b border-blue-gray-50";
+
+                      return (
+                        <tr key={index}>
+                          <td className={classes}>
+                            <Typography
+                              variant="small"
+                              color="blue-gray"
+                              className="font-normal"
+                            >
+                              {order?.user_name}
+                            </Typography>
+                          </td>
+                          <td className={classes}>
+                            <Typography
+                              variant="small"
+                              color="blue-gray"
+                              className="font-normal"
+                            >
+                              {order?.course_name}
+                            </Typography>
+                          </td>
+                          <td className={classes}>
+                            <Typography
+                              variant="small"
+                              color="blue-gray"
+                              className="font-normal"
+                            >
+                              {order?.payments?.amount}
+                            </Typography>
+                          </td>
+                          <td className={classes}>
+                            <Typography
+                              as="a"
+                              href="#"
+                              variant="small"
+                              color="blue-gray"
+                              className="font-medium"
+                            >
+                              {order?.payments?.payment_method}
+                            </Typography>
+                          </td>
+                          <td className={classes}>
+                            <Typography
+                              as="a"
+                              href="#"
+                              variant="small"
+                              color="blue-gray"
+                              className="font-medium"
+                            >
+                              {order?.payments?.transaction_id}
+                            </Typography>
+                          </td>
+                          <td className={classes}>
+                            <Typography
+                              as="a"
+                              href="#"
+                              variant="small"
+                              color="blue-gray"
+                              className="font-medium"
+                            >
+                              {order?.payments?.transaction_number}
+                            </Typography>
+                          </td>
+                          <td className={classes}>
+                            <Button
+                              onClick={() => setApproveId(order?.id)}
+                              color="blue"
+                              size="sm"
+                            >
+                              Approve
+                            </Button>
+                          </td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
+              </Card>
+            </>
+          )}
         </>
       )}
     </section>

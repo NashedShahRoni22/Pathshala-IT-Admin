@@ -1,4 +1,4 @@
-import { Button, Input, Option, Select } from "@material-tailwind/react";
+import { Button, Input, Option, Select, Spinner } from "@material-tailwind/react";
 import React, { useEffect, useState } from "react";
 
 export default function AssignStudents() {
@@ -7,6 +7,7 @@ export default function AssignStudents() {
 
   const [studentGetLoader, setStudentLoader] = useState(false);
   const [postLoader, setPostLoader] = useState(false);
+  const [err, setErr] = useState("");
 
   const [student, setStudent] = useState("");
   const [studentId, setStudentId] = useState("");
@@ -59,15 +60,17 @@ export default function AssignStudents() {
             },
           }
         );
-        if (response.status === 401) {
-          navigate("/sign-in");
-          return;
-        }
         const jsonData = await response.json();
         console.log(jsonData);
-        setStudent(jsonData?.data);
-        setStudentId(jsonData?.data?.student_details?.id);
-        setStudentLoader(false);
+        if (jsonData.status === true) {
+          setStudent(jsonData?.data);
+          setStudentId(jsonData?.data?.student_details?.id);
+          setStudentLoader(false);
+        } else {
+          setStudent("");
+          setStudentId("");
+          setErr("User did not enrolled for selected batch's course!");
+        }
       } catch (error) {
         console.error(error);
       }
@@ -75,10 +78,12 @@ export default function AssignStudents() {
     fetchData();
   };
 
+  //handle assign student
   const handleAssignStudent = async () => {
     const formData = new FormData();
     const postData = {
-      batch, studentId
+      batch,
+      studentId,
     };
     console.log(postData);
     formData.append("batch_id", batch);
@@ -102,7 +107,7 @@ export default function AssignStudents() {
       const responseData = await response.json();
       console.log(responseData);
       if (responseData.status === true) {
-        window.alert("Student Assigned successfully!");
+        window.alert("Student assigned successfully!");
         window.location.reload();
       } else {
         console.log(
@@ -117,10 +122,8 @@ export default function AssignStudents() {
   };
 
   return (
-    <section className="px-5 py-10 flex flex-col gap-5 lg:flex-row">
-      <div
-        className="lg:w-1/2 shadow p-5 rounded-xl flex flex-col gap-2.5"
-      >
+    <section className="px-5 py-10 flex flex-col gap-5 lg:flex-row lg:items-center">
+      <div className="lg:w-1/2 shadow p-5 rounded-xl flex flex-col gap-2.5">
         <h5 className="font-semibold">Assign Student</h5>
         <Select label="Select Batch" onChange={(value) => setBatch(value)}>
           {batches?.map((b) => (
@@ -154,13 +157,35 @@ export default function AssignStudents() {
           {postLoader && <Spinner className="h-4 w-4" />}
         </Button>
       </div>
-      {student !== "" && (
-        <div className="lg:w-1/2 p-5 shadow-xl rounded-xl">
+      {student !== "" ? (
+        <div className="lg:w-1/2 p-5">
           <h1 className="font-semibold text-xl">Student Information</h1>{" "}
-          <p> <span className="font-semibold mt-2.5">Name:</span> {student?.student_details?.name} </p>
-          <p> <span className="font-semibold">ID:</span> {student?.student_details?.student_id_number} </p>
-          <p> <span className="font-semibold">Phone:</span> {student?.student_details?.phone_number} </p>
+          <p>
+            {" "}
+            <span className="font-semibold mt-2.5">Name:</span>{" "}
+            {student?.student_details?.name}{" "}
+          </p>
+          <p>
+            {" "}
+            <span className="font-semibold">ID:</span>{" "}
+            {student?.student_details?.student_id_number}{" "}
+          </p>
+          <p>
+            {" "}
+            <span className="font-semibold">Phone:</span>{" "}
+            {student?.student_details?.phone_number}{" "}
+          </p>
         </div>
+      ) : (
+        <>
+          {err !== "" ? (
+            <p className="text-xl font-semibold text-center w-full">{err}</p>
+          ) : (
+            <p className="text-xl font-semibold text-center w-full">
+              Find Student
+            </p>
+          )}
+        </>
       )}
     </section>
   );
