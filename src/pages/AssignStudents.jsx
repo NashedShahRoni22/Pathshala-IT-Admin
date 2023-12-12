@@ -69,7 +69,7 @@ export default function AssignStudents() {
         } else {
           setStudent("");
           setStudentId("");
-          setErr("User did not enrolled for selected batch's course!");
+          setErr(jsonData?.message);
         }
       } catch (error) {
         console.error(error);
@@ -127,7 +127,7 @@ export default function AssignStudents() {
         <h5 className="font-semibold">Assign Student</h5>
         <Select label="Select Batch" onChange={(value) => setBatch(value)}>
           {batches?.map((b) => (
-            <Option value={b?.id}>{b?.batch_name}</Option>
+            <Option key={b?.id} value={b?.id}>{b?.batch_name}</Option>
           ))}
         </Select>
         <div className="flex items-center gap-1">

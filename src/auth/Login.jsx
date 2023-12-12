@@ -18,7 +18,7 @@ export default function Login() {
         password,
       };
       // Make a POST request using the fetch method
-      const response = await fetch("https://api.pathshalait.com/api/v1/login", {
+      const response = await fetch("https://api.pathshalait.com/api/v1/admin/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

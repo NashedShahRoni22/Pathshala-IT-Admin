@@ -14,6 +14,8 @@ import Order from "./pages/Order";
 import DiscountRequest from "./pages/DiscountRequest";
 import CreateBatch from "./pages/CreateBatch";
 import AssignStudents from "./pages/AssignStudents";
+import AddAddmission from "./pages/AddAddmission";
+import AddSeminar from "./pages/AddSeminar";
 
 export default function App() {
   const router = createBrowserRouter([
@@ -72,6 +74,14 @@ export default function App() {
         {
           path: "/root/assign_student",
           element: <AssignStudents />,
+        },
+        {
+          path: "/root/add_addmission",
+          element: <AddAddmission />,
+        },
+        {
+          path: "/root/add_seminar",
+          element: <AddSeminar />,
         },
       ],
     },

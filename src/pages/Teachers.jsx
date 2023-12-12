@@ -13,7 +13,7 @@ export default function Teachers() {
   const [postLoading, setPostLoading] = useState(false);
   // const [userType, setUserType] = useState("");
   const [teachers, setTeachers] = useState([]);
-  // console.log(teachers);
+  console.log(teachers);
   const [designations, setDesignations] = useState([]);
   const [designation, setDesignation] = useState("");
   // console.log(designation);
@@ -102,7 +102,7 @@ export default function Teachers() {
     };
 
     fetchData();
-  }, []);
+  }, [postLoading]);
 
   //get designation
   useEffect(() => {
@@ -120,7 +120,6 @@ export default function Teachers() {
 
         if (response.ok) {
           const responseData = await response.json();
-          // console.log(responseData);
           setDesignations(responseData?.data);
         } else {
           console.log(
@@ -136,7 +135,7 @@ export default function Teachers() {
     fetchData();
   }, []);
 
-  const TABLE_HEAD = ["Name", "Email", "Phone", "Action"];
+  const TABLE_HEAD = ["Name", "Phone", "Action"];
   return (
     <section className="px-10 py-20">
       <form
@@ -183,6 +182,7 @@ export default function Teachers() {
           color="blue"
           type="submit"
           className="flex items-center gap-2 justify-center"
+          disabled={designation === ""}
         >
           Submit {postLoading && <Spinner className="h-4 w-4" />}
         </Button>
@@ -224,15 +224,6 @@ export default function Teachers() {
                       className="font-normal"
                     >
                       {b?.name}
-                    </Typography>
-                  </td>
-                  <td className={classes}>
-                    <Typography
-                      variant="small"
-                      color="blue-gray"
-                      className="font-normal"
-                    >
-                      {b?.email}
                     </Typography>
                   </td>
                   <td className={classes}>

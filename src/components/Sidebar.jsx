@@ -23,7 +23,7 @@ import {
   AiOutlinePlus,
 } from "react-icons/ai";
 import { GiConvergenceTarget } from "react-icons/gi";
-import { PiStudent, PiChalkboardTeacherDuotone } from "react-icons/pi";
+import { PiChalkboardTeacherDuotone } from "react-icons/pi";
 
 export default function Sidebar() {
   const [open, setOpen] = React.useState(0);
@@ -42,6 +42,22 @@ export default function Sidebar() {
               <HiOutlinePresentationChartLine className="h-5 w-5" />
             </ListItemPrefix>
             Dashboard
+          </ListItem>
+        </Link>
+        <Link to="/root/add_addmission">
+          <ListItem>
+            <ListItemPrefix>
+              <BsPlusCircle className="h-5 w-5" />
+            </ListItemPrefix>
+            Add Addmission
+          </ListItem>
+        </Link>
+        <Link to="/root/add_seminar">
+          <ListItem>
+            <ListItemPrefix>
+              <BsPlusCircle className="h-5 w-5" />
+            </ListItemPrefix>
+            Add Seminar
           </ListItem>
         </Link>
         <Link to="/root/discount_request">

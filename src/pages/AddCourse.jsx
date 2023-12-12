@@ -136,6 +136,7 @@ export default function AddCourse() {
 
     fetchData();
   }, []);
+  
   // get tools
   useEffect(() => {
     // Only call the API when accessToken is available and loading is true

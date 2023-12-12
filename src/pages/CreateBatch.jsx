@@ -37,11 +37,9 @@ export default function CreateBatch() {
     formData.append("course_id", courseId);
     try {
       setPostLoading(true);
-      // Create headers with the Authorization token
       const headers = new Headers({
         Authorization: `Bearer ${accessToken}`,
       });
-      // Make a POST request using the fetch method
       const response = await fetch(
         "https://api.pathshalait.com/api/v1/batch-management/batches",
         {
@@ -68,7 +66,6 @@ export default function CreateBatch() {
 
   // get course
   useEffect(() => {
-    // Only call the API when accessToken is available and loading is true
     const fetchData = async () => {
       try {
         const response = await fetch(
@@ -97,9 +94,9 @@ export default function CreateBatch() {
 
     fetchData();
   }, []);
+
   // get teacher
   useEffect(() => {
-    // Only call the API when accessToken is available and loading is true
     const fetchData = async () => {
       try {
         const response = await fetch(
@@ -114,7 +111,6 @@ export default function CreateBatch() {
 
         if (response.ok) {
           const responseData = await response.json();
-          // console.log(responseData);
           setTeachers(responseData?.data);
         } else {
           console.log(
@@ -129,6 +125,7 @@ export default function CreateBatch() {
 
     fetchData();
   }, []);
+  
   // get batches
   useEffect(() => {
     const fetchData = async () => {
@@ -146,7 +143,6 @@ export default function CreateBatch() {
 
         if (response.ok) {
           const responseData = await response.json();
-          // console.log(responseData);
           setBatches(responseData?.data);
         } else {
           console.log(
