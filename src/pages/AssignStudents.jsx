@@ -179,9 +179,9 @@ export default function AssignStudents() {
       ) : (
         <>
           {err !== "" ? (
-            <p className="text-xl font-semibold text-center w-full">{err}</p>
+            <p className="text-3xl font-semibold text-center w-full">{err}</p>
           ) : (
-            <p className="text-xl font-semibold text-center w-full">
+            <p className="text-3xl font-semibold text-center w-full">
               Find Student
             </p>
           )}

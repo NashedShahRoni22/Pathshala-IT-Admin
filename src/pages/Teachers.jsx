@@ -11,12 +11,10 @@ import React, { useEffect, useState } from "react";
 
 export default function Teachers() {
   const [postLoading, setPostLoading] = useState(false);
-  // const [userType, setUserType] = useState("");
   const [teachers, setTeachers] = useState([]);
   console.log(teachers);
   const [designations, setDesignations] = useState([]);
   const [designation, setDesignation] = useState("");
-  // console.log(designation);
   const accessToken = localStorage.getItem("accessToken");
 
   //add teacher
@@ -135,7 +133,7 @@ export default function Teachers() {
     fetchData();
   }, []);
 
-  const TABLE_HEAD = ["Name", "Phone", "Action"];
+  const TABLE_HEAD = ["Name", "Designation", "Phone", "Role"];
   return (
     <section className="px-10 py-20">
       <form
@@ -224,6 +222,15 @@ export default function Teachers() {
                       className="font-normal"
                     >
                       {b?.name}
+                    </Typography>
+                  </td>
+                  <td className={classes}>
+                    <Typography
+                      variant="small"
+                      color="blue-gray"
+                      className="font-normal"
+                    >
+                      {b?.designation}
                     </Typography>
                   </td>
                   <td className={classes}>

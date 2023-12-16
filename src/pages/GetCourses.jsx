@@ -8,6 +8,7 @@ import {
 } from "@material-tailwind/react";
 import React, { useEffect, useState } from "react";
 import CourseDetails from "../components/CourseDetails";
+import Loader from "../components/Loader";
 
 export default function GetCourses() {
   const [courses, setCourses] = useState([]);
@@ -83,17 +84,17 @@ export default function GetCourses() {
     <section className="px-5 py-10 min-h-screen">
       <h1 className="text-xl font-semibold">Total Courses {courses?.length}</h1>
       {dataLoading ? (
-        "Loading"
+        <Loader/>
       ) : (
         <div className="mt-5 grid gap-5 md:grid-cols-2 lg:grid-cols-4">
           {courses?.map((c, i) => (
             <div
               key={i}
-              className="shadow rounded flex flex-col justify-between"
+              className="shadow rounded-xl flex flex-col justify-between"
             >
               <img
                 src={c?.course_image}
-                className="w-[380px] h-[240px]"
+                className="w-[380px] h-[240px] rounded-t-xl"
                 alt=""
               />
               <div className="p-2">
@@ -113,7 +114,7 @@ export default function GetCourses() {
         </div>
       )}
 
-      <Dialog open={open} handler={handleOpen}>
+      <Dialog open={open} handler={handleOpen} size="lg">
         <DialogHeader>
           <Typography className="text-xl font-semibold">Details of {courseDetails?.name}</Typography>
         </DialogHeader>

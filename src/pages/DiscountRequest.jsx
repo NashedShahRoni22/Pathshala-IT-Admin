@@ -90,7 +90,7 @@ export default function DiscountRequest() {
       ) : (
         <>
           {discounts.length === 0 ? (
-            <p className="text-xl font-semibold">No discount request yet!</p>
+            <p className="text-3xl text-red-500 text-center mt-10 font-semibold">No discount request yet!</p>
           ) : (
             <>
               {" "}

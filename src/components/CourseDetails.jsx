@@ -1,10 +1,8 @@
-import { Avatar } from "@material-tailwind/react";
 import React from "react";
 
 export default function CourseDetails({ courseDetails }) {
-console.log(courseDetails);
   return (
-    <section className="text-black h-[60vh] overflow-y-auto scroll-smooth">
+    <section className="text-black h-[60vh] overflow-y-auto scroll-smooth p-5">
       <div className="flex gap-10">
         <img src={courseDetails?.course_image} className="h-[200px] w-[200px] rounded-xl"/>
         <div className="flex flex-col gap-2">

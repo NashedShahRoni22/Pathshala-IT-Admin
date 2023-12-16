@@ -16,6 +16,7 @@ import CreateBatch from "./pages/CreateBatch";
 import AssignStudents from "./pages/AssignStudents";
 import AddAddmission from "./pages/AddAddmission";
 import AddSeminar from "./pages/AddSeminar";
+import SeminarRegisteredUser from "./pages/SeminarRegisteredUser";
 
 export default function App() {
   const router = createBrowserRouter([
@@ -82,6 +83,10 @@ export default function App() {
         {
           path: "/root/add_seminar",
           element: <AddSeminar />,
+        },
+        {
+          path: "/root/seminar_registered_user/:id",
+          element: <SeminarRegisteredUser />,
         },
       ],
     },
