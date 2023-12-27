@@ -29,6 +29,7 @@ export default function Login() {
       console.log(responseData);
       if (responseData.status === true) {
         localStorage.setItem("accessToken", responseData?.data?.access_token);
+        localStorage.setItem("role", responseData?.data?.user_role);
         navigate("/root");
       } else {
         window.alert("Something went wrong! Knock developer!");

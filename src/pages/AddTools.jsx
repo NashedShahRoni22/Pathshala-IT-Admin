@@ -82,7 +82,7 @@ export default function AddTools() {
     <section className="px-5 py-10 min-h-screen lg:flex">
       <form
         action=""
-        className="h-fit lg:w-1/3 shadow p-5 flex flex-col justify-center gap-4"
+        className="h-fit lg:w-1/3 shadow rounded-xl p-5 flex flex-col justify-center gap-4"
       >
         <h5 className="font-semibold text-xl">Add Tools</h5>
         <Select
@@ -104,7 +104,7 @@ export default function AddTools() {
           {postLoading ? "Loading" : "Add"}
         </Button>
       </form>
-      <div className="min-h-screen  lg:w-2/3 mt-5 md:mt-0 bg-light-blue-50 rounded-xl p-5">
+      <div className="min-h-screen  lg:w-2/3 mt-10 lg:mt-0 bg-light-blue-50 rounded-xl p-5">
         <h5 className="font-semibold text-xl">Tools List</h5>
         <div className="mt-5 grid grid-cols-2 lg:grid-cols-4 gap-4">
           {dataLoading ? (

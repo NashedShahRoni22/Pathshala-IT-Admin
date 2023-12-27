@@ -17,6 +17,13 @@ import AssignStudents from "./pages/AssignStudents";
 import AddAddmission from "./pages/AddAddmission";
 import AddSeminar from "./pages/AddSeminar";
 import SeminarRegisteredUser from "./pages/SeminarRegisteredUser";
+import AddCourseMaterial from "./pages/AddCourseMaterial";
+import Students from "./pages/Students";
+import WishBirthday from "./pages/WishBirthday";
+import BatchOverview from "./pages/BatchOverview";
+import BatchDetails from "./pages/BatchDetails";
+import AddSuccessStories from "./pages/AddSuccessStories";
+import SendSMS from "./pages/SendSMS";
 
 export default function App() {
   const router = createBrowserRouter([
@@ -41,6 +48,14 @@ export default function App() {
           element: <Teachers />,
         },
         {
+          path: "/root/students",
+          element: <Students />,
+        },
+        {
+          path: "/root/wish_birthday",
+          element: <WishBirthday />,
+        },
+        {
           path: "/root/categorey",
           element: <AddCategorey />,
         },
@@ -59,6 +74,14 @@ export default function App() {
         {
           path: "/root/add_service",
           element: <AddService />,
+        },
+        {
+          path: "/root/add_success_stories",
+          element: <AddSuccessStories />,
+        },
+        {
+          path: "/root/send_sms",
+          element: <SendSMS />,
         },
         {
           path: "/root/enrollment_request",
@@ -87,6 +110,18 @@ export default function App() {
         {
           path: "/root/seminar_registered_user/:id",
           element: <SeminarRegisteredUser />,
+        },
+        {
+          path: "/root/add_course_material",
+          element: <AddCourseMaterial />,
+        },
+        {
+          path: "/root/batch_overview",
+          element: <BatchOverview />,
+        },
+        {
+          path: "/root/batch_details/:id",
+          element: <BatchDetails />,
         },
       ],
     },

@@ -14,7 +14,6 @@ export default function GetCourses() {
   const [courses, setCourses] = useState([]);
   const [courseDetails, setCourseDetails] = useState({});
   const [dataLoading, setDataLoading] = useState(false);
-  const [loading, setLoading] = useState(false);
   const accessToken = localStorage.getItem("accessToken");
   const [open, setOpen] = React.useState(false);
 
@@ -26,7 +25,6 @@ export default function GetCourses() {
   // get course
   useEffect(() => {
     setDataLoading(true);
-    // Only call the API when accessToken is available and loading is true
     const fetchData = async () => {
       try {
         const response = await fetch(
@@ -50,12 +48,12 @@ export default function GetCourses() {
       } catch (error) {
         console.log("Error making GET request: " + error);
       } finally {
-        setDataLoading(false); // Set loading state to false when the request is complete
+        setDataLoading(false);
       }
     };
 
     fetchData();
-  }, [loading]);
+  }, []);
 
   // course delete
   const handleDelete = async (id) => {

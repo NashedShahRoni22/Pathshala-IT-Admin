@@ -12,7 +12,6 @@ import React, { useEffect, useState } from "react";
 export default function Teachers() {
   const [postLoading, setPostLoading] = useState(false);
   const [teachers, setTeachers] = useState([]);
-  console.log(teachers);
   const [designations, setDesignations] = useState([]);
   const [designation, setDesignation] = useState("");
   const accessToken = localStorage.getItem("accessToken");
@@ -51,17 +50,11 @@ export default function Teachers() {
         body: formData,
       });
 
-      if (response.ok) {
-        const responseData = await response.json();
-        console.log(responseData);
-        if (responseData.status === true) {
-          window.alert("User Added Successfully!");
-          e.target.reset();
-        }
-      } else {
-        console.log(
-          "Error making POST request. Status code: " + response.status
-        );
+      const responseData = await response.json();
+      // console.log(responseData);
+      if (responseData.status === true) {
+        window.alert("Teacher Added Successfully!");
+        e.target.reset();
       }
     } catch (error) {
       console.log("Error making POST request: " + error);
@@ -86,7 +79,6 @@ export default function Teachers() {
 
         if (response.ok) {
           const responseData = await response.json();
-          // console.log(responseData);
           setTeachers(responseData?.data);
         } else {
           console.log(
@@ -135,7 +127,7 @@ export default function Teachers() {
 
   const TABLE_HEAD = ["Name", "Designation", "Phone", "Role"];
   return (
-    <section className="px-10 py-20">
+    <section className="px-10 py-10">
       <form
         className="lg:w-1/2 shadow p-5 rounded-xl flex flex-col gap-2.5"
         action=""
@@ -185,7 +177,7 @@ export default function Teachers() {
           Submit {postLoading && <Spinner className="h-4 w-4" />}
         </Button>
       </form>
-      
+
       <Card className="h-full w-full overflow-scroll mt-10">
         <table className="w-full min-w-max table-auto text-left">
           <thead>
@@ -230,7 +222,7 @@ export default function Teachers() {
                       color="blue-gray"
                       className="font-normal"
                     >
-                      {b?.designation}
+                      {b?.designation} 
                     </Typography>
                   </td>
                   <td className={classes}>

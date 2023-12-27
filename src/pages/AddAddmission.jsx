@@ -156,12 +156,12 @@ export default function AddAddmission() {
   }, []);
 
   return (
-    <section className="px-10 py-20">
+    <section className="px-10 py-10">
       <form
         onSubmit={handaleSubmit}
-        className="md:w-1/2 lg:w-1/3 shadow rounded p-5"
+        className="lg:w-1/3 shadow rounded-xl p-5"
       >
-        <h1>Add addmission</h1>
+        <h1 className="text-xl font-semibold">Add addmission</h1>
         <div className="mt-5 flex flex-col gap-2.5">
           <Select
             label="Select course"

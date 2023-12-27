@@ -4,11 +4,8 @@ import React, { useEffect, useState } from "react";
 export default function AssignStudents() {
   const accessToken = localStorage.getItem("accessToken");
   const [batches, setBatches] = useState([]);
-
-  const [studentGetLoader, setStudentLoader] = useState(false);
   const [postLoader, setPostLoader] = useState(false);
   const [err, setErr] = useState("");
-
   const [student, setStudent] = useState("");
   const [studentId, setStudentId] = useState("");
   const [batch, setBatch] = useState("");
@@ -48,8 +45,6 @@ export default function AssignStudents() {
 
   //get student
   const handleGetData = () => {
-    setStudentLoader(true);
-    console.log(batch, number);
     const fetchData = async () => {
       try {
         const response = await fetch(
@@ -65,7 +60,6 @@ export default function AssignStudents() {
         if (jsonData.status === true) {
           setStudent(jsonData?.data);
           setStudentId(jsonData?.data?.student_details?.id);
-          setStudentLoader(false);
         } else {
           setStudent("");
           setStudentId("");
@@ -110,9 +104,8 @@ export default function AssignStudents() {
         window.alert("Student assigned successfully!");
         window.location.reload();
       } else {
-        console.log(
-          "Error making POST request. Status code: " + response.status
-        );
+        window.alert(responseData?.message);
+        window.location.reload();
       }
     } catch (error) {
       console.log("Error making POST request: " + error);
@@ -122,9 +115,9 @@ export default function AssignStudents() {
   };
 
   return (
-    <section className="px-5 py-10 flex flex-col gap-5 lg:flex-row lg:items-center">
+    <section className="px-10 py-10 flex flex-col gap-5 lg:flex-row lg:items-center">
       <div className="lg:w-1/2 shadow p-5 rounded-xl flex flex-col gap-2.5">
-        <h5 className="font-semibold">Assign Student</h5>
+        <h1 className="text-xl font-semibold">Assign student</h1>
         <Select label="Select Batch" onChange={(value) => setBatch(value)}>
           {batches?.map((b) => (
             <Option key={b?.id} value={b?.id}>{b?.batch_name}</Option>
@@ -141,8 +134,8 @@ export default function AssignStudents() {
           />
           <Button
             onClick={handleGetData}
-            disabled={number.length !== 11}
-            color="blue"
+            disabled={number.length !== 11 || batch === ""}
+            className="bg-blue-400"
           >
             Search
           </Button>
@@ -177,7 +170,7 @@ export default function AssignStudents() {
           </p>
         </div>
       ) : (
-        <>
+        <div className="lg:w-1/2">
           {err !== "" ? (
             <p className="text-3xl font-semibold text-center w-full">{err}</p>
           ) : (
@@ -185,7 +178,7 @@ export default function AssignStudents() {
               Find Student
             </p>
           )}
-        </>
+        </div>
       )}
     </section>
   );

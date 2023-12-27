@@ -238,7 +238,7 @@ export default function AddService() {
   };
   return (
     <section className="px-5 py-10 min-h-screen">
-      <div action="" className="shadow p-8">
+      <div action="" className="shadow rounded-xl p-8">
         <h5 className="font-semibold text-xl">Add Service</h5>
         {/* data inputs */}
         <input

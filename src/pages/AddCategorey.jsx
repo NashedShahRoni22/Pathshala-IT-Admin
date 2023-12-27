@@ -80,7 +80,7 @@ export default function AddCategorey() {
   };
   return (
     <section className="px-5 py-10 min-h-screen lg:flex">
-      <form className="lg:w-1/3 shadow p-5 h-fit flex flex-col gap-4">
+      <form className="lg:w-1/3 shadow rounded-xl p-5 h-fit flex flex-col gap-4">
         <h5 className="font-semibold text-xl">Add Categorey</h5>
         <input
           name="icon"
@@ -98,7 +98,7 @@ export default function AddCategorey() {
           {postLoading ? "Loading.." : "Add"}
         </Button>
       </form>
-      <div className="min-h-screen lg:w-2/3 mt-5 md:mt-0 bg-light-blue-50 rounded-xl p-5">
+      <div className="min-h-screen lg:w-2/3 mt-10 lg:mt-0 bg-light-blue-50 rounded-xl p-5">
         <h5 className="font-semibold text-xl">Categorey List</h5>
         <div className="mt-5">
           {dataLoading ? (

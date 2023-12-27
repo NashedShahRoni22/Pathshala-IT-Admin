@@ -84,7 +84,7 @@ export default function DiscountRequest() {
     }
   }, [discountId]);
   return (
-    <section className="px-10 py-20">
+    <section className="px-10 py-10">
       {dataLoading ? (
         <Loader />
       ) : (
@@ -94,8 +94,8 @@ export default function DiscountRequest() {
           ) : (
             <>
               {" "}
-              <h1>Discount Request {discounts?.length}</h1>
-              <Card className="h-full w-full overflow-scroll mt-8">
+              <h1 className="text-xl font-semibold">Discount request: {discounts?.length}</h1>
+              <Card className="h-full w-full overflow-scroll mt-5">
                 <table className="w-full min-w-max table-auto text-left">
                   <thead>
                     <tr>

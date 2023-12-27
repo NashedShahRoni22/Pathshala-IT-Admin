@@ -67,6 +67,7 @@ export default function Order() {
           );
 
           const responseData = await response.json();
+          console.log(responseData);
 
           if (responseData.status === true) {
             const filteredData = orders.filter((d) => d.id !== approveId);
@@ -86,7 +87,7 @@ export default function Order() {
   }, [approveId]);
 
   return (
-    <section className="px-10 py-20">
+    <section className="px-10 py-10">
       {dataLoading ? (
         <Loader />
       ) : (
@@ -95,8 +96,8 @@ export default function Order() {
             <p className="text-3xl text-red-500 text-center mt-10 font-semibold">No enrollment request yet!</p>
           ) : (
             <>
-              <h1>Orders {orders?.length}</h1>
-              <Card className="h-full w-full overflow-scroll mt-8">
+              <h1 className="text-xl font-semibold">Enrollment request: {orders?.length}</h1>
+              <Card className="h-full w-full overflow-scroll mt-5">
                 <table className="w-full min-w-max table-auto text-left">
                   <thead>
                     <tr>

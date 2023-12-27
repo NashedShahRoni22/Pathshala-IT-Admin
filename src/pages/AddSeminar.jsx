@@ -93,12 +93,12 @@ export default function AddSeminar() {
   }, [loading]);
 
   return (
-    <section className="px-10 py-20">
+    <section className="px-10 py-10">
       <form
         onSubmit={handaleSubmit}
-        className="md:w-1/2 lg:w-1/3 shadow rounded p-5"
+        className="lg:w-1/3 shadow rounded p-5"
       >
-        <h1>Add seminar</h1>
+        <h1 className="text-xl font-semibold">Add seminar</h1>
         <div className="mt-5 flex flex-col gap-2.5">
           <Input
             color="blue"
@@ -125,7 +125,7 @@ export default function AddSeminar() {
             type="time"
           />
 
-          <Button className="bg-blue-400" type="submit">
+          <Button className="bg-blue-500" type="submit">
             {loading ? "Loading" : "Submit"}
           </Button>
         </div>
