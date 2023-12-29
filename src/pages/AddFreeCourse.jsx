@@ -1,20 +1,20 @@
 import {
   Button,
+  Card,
   Input,
   Option,
   Select,
   Spinner,
+  Typography,
 } from "@material-tailwind/react";
 import React, { useEffect, useState } from "react";
 
-export default function AddSuccessStories() {
+export default function AddFreeCourse() {
   const accessToken = localStorage.getItem("accessToken");
   const [courses, setCourses] = useState([]);
-  const [stories, setStories] = useState([]);
+  const [freeCourses, setFreeCourses] = useState([]);
   const [course, setCourse] = useState("");
-  const [image, setImage] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [updateLoading, setUpdateLoading] = useState(false);
   // get course
   useEffect(() => {
     const fetchData = async () => {
@@ -46,25 +46,25 @@ export default function AddSuccessStories() {
     fetchData();
   }, []);
 
-  //add stories
+  //add free courses
   const handaleSubmit = async (e) => {
     e.preventDefault();
     const form = e.target;
     const url = form.url.value;
+    const title = form.title.value;
 
     const formData = new FormData();
     formData.append("url", url);
     formData.append("course_id", course);
-    formData.append("thumbnail_image", image);
+    formData.append("title", title);
 
     try {
       setLoading(true);
       const headers = new Headers({
         Authorization: `Bearer ${accessToken}`,
       });
-      // Make a POST request using the fetch method
       const response = await fetch(
-        "https://api.pathshalait.com/api/v1/success_stories",
+        "https://api.pathshalait.com/api/v1/free_course_materials/videos",
         {
           method: "POST",
           headers,
@@ -74,7 +74,7 @@ export default function AddSuccessStories() {
 
       const responseData = await response.json();
       if (responseData.status === true) {
-        window.alert("Stories added successfully!");
+        window.alert("Free Courses added successfully!");
         window.location.reload();
       } else {
         console.log(
@@ -88,12 +88,12 @@ export default function AddSuccessStories() {
     }
   };
 
-  // get stories
+  // get free courses
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await fetch(
-          "https://api.pathshalait.com/api/v1/success_stories",
+          "https://api.pathshalait.com/api/v1/free_course_materials/videos",
           {
             method: "GET",
             headers: {
@@ -104,7 +104,7 @@ export default function AddSuccessStories() {
 
         if (response.ok) {
           const responseData = await response.json();
-          setStories(responseData?.data);
+          setFreeCourses(responseData?.data);
         } else {
           console.log(
             "Error making GET request. Status code: " + response.status
@@ -117,56 +117,19 @@ export default function AddSuccessStories() {
     };
 
     fetchData();
-  }, [updateLoading]);
-
-  //add stories
-  const deactiveStory = async (id, type) => {
-    const formData = new FormData();
-    if (type === "inactive") {
-      formData.append("status", "inactive");
-    } else {
-      formData.append("status", "active");
-    }
-
-    formData.append("_method", "put");
-
-    try {
-      setUpdateLoading(true);
-      const headers = new Headers({
-        Authorization: `Bearer ${accessToken}`,
-      });
-      // Make a POST request using the fetch method
-      const response = await fetch(
-        `https://api.pathshalait.com/api/v1/success_stories/${id}`,
-        {
-          method: "POST",
-          headers,
-          body: formData,
-        }
-      );
-
-      const responseData = await response.json();
-      if (responseData.status === true) {
-        window.alert("Stories status updated successfully!");
-      }
-    } catch (error) {
-      console.log("Error making POST request: " + error);
-    } finally {
-      setUpdateLoading(false);
-    }
-  };
-
+  }, []);
+  const TABLE_HEAD = ["Title", "URL", "View"];
   return (
     <section className="px-5 py-10">
       <form onSubmit={handaleSubmit} className="shadow p-5 rounded-xl lg:w-1/3">
-        <h1 className="text-xl font-semibold mb-5">Add Success Stories</h1>
+        <h1 className="text-xl font-semibold mb-5">Add Free Course</h1>
         <div className="flex flex-col gap-2.5">
-          <input type="file" onChange={(e) => setImage(e.target.files[0])} />
           <Select label="Select Course" onChange={(value) => setCourse(value)}>
             {courses.map((b) => (
               <Option value={b.id}>{b?.name}</Option>
             ))}
           </Select>
+          <Input name="title" label="Enter Title" />
           <Input name="url" label="Enter URL" />
           <Button
             type="submit"
@@ -177,35 +140,62 @@ export default function AddSuccessStories() {
           </Button>
         </div>
       </form>
-      <div className="mt-10 grid md:grid-cols-2 lg:grid-cols-4 gap-5">
-        {stories.map((s, i) => (
-          <div key={i} className="p-2 shadow-xl rounded-xl">
-            <img src={s?.thumbnail_image} />
-            <div className="mt-5 flex justify-between">
-              <Button className="bg-blue-500" size="sm">
-                View
-              </Button>
-              {s?.status === 1 ? (
-                <Button
-                  onClick={() => deactiveStory(s?.id, "inactive")}
-                  className="bg-red-500"
-                  size="sm"
+      <Card className="h-full w-full overflow-scroll mt-10">
+        <table className="w-full min-w-max table-auto text-left">
+          <thead>
+            <tr>
+              {TABLE_HEAD.map((head) => (
+                <th
+                  key={head}
+                  className="border-b border-blue-gray-100 bg-blue-gray-50 p-4"
                 >
-                  Deactive
-                </Button>
-              ) : (
-                <Button
-                  onClick={() => deactiveStory(s?.id, "active")}
-                  className="bg-blue-500"
-                  size="sm"
-                >
-                  Active
-                </Button>
-              )}
-            </div>
-          </div>
-        ))}
-      </div>
+                  <Typography
+                    variant="small"
+                    color="blue-gray"
+                    className="font-normal leading-none opacity-70"
+                  >
+                    {head}
+                  </Typography>
+                </th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {freeCourses.map((fc, index) => {
+              const isLast = index === freeCourses.length - 1;
+              const classes = isLast
+                ? "p-4"
+                : "p-4 border-b border-blue-gray-50";
+
+              return (
+                <tr key={index}>
+                  <td className={classes}>
+                    <Typography
+                      variant="small"
+                      color="blue-gray"
+                      className="font-normal"
+                    >
+                      {fc?.title}
+                    </Typography>
+                  </td>
+                  <td className={classes}>
+                    <Typography
+                      variant="small"
+                      color="blue-gray"
+                      className="font-normal"
+                    >
+                      {fc?.url}
+                    </Typography>
+                  </td>
+                  <td className={classes}>
+                    <Button size="sm" className="bg-blue-500" >View</Button>
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </Card>
     </section>
   );
 }

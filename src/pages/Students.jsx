@@ -1,5 +1,8 @@
 import {
+  Button,
   Card,
+  Dialog,
+  DialogBody,
   Option,
   Select,
   Typography,
@@ -7,16 +10,25 @@ import {
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Loader from "../components/Loader";
+import { IoIosCloseCircle } from "react-icons/io";
 
 export default function Students() {
   const accessToken = localStorage.getItem("accessToken");
   const [students, setStudents] = useState([]);
   // console.log(students);
   const [batches, setBatches] = useState([]);
-  const [batch, setBatch] = useState(null);
+  const [batch, setBatch] = useState("");
   const [courses, setCourses] = useState([]);
-  const [course, setCourse] = useState(null);
+  const [course, setCourse] = useState("");
   const [loader, setLoader] = useState(false);
+
+  const [open, setOpen] = React.useState(false);
+  const [data, setData] = React.useState({});
+
+  const handleOpen = (details) => {
+    setOpen(!open);
+    setData(details);
+  };
 
   // get batches
   useEffect(() => {
@@ -106,20 +118,24 @@ export default function Students() {
     fetchData();
   }, [batch, course]);
 
-  const TABLE_HEAD = ["Course", "Name", "Phone Number", "Email", "Details"];
+  const TABLE_HEAD = ["Name", "Phone", "Gurdian", "Phone", ""];
 
   return (
     <section className="mx-5 my-10">
       <div className="mt-10 flex justify-between items-center">
         <div className="flex gap-2">
           <Select label="Select Batch" onChange={(value) => setBatch(value)}>
-            {batches.map((b) => (
-              <Option value={b.id}>{b?.batch_name}</Option>
+            {batches.map((b, i) => (
+              <Option key={i} value={b.id}>
+                {b?.batch_name}
+              </Option>
             ))}
           </Select>
           <Select label="Select Course" onChange={(value) => setCourse(value)}>
-            {courses.map((b) => (
-              <Option value={b.id}>{b?.name}</Option>
+            {courses.map((b, i) => (
+              <Option key={i} value={b.id}>
+                {b?.name}
+              </Option>
             ))}
           </Select>
         </div>
@@ -153,7 +169,7 @@ export default function Students() {
                 ))}
               </tr>
             </thead>
-            {/* <tbody>
+            <tbody>
               {students?.map((student, index) => {
                 const isLast = index === students.length - 1;
                 const classes = isLast
@@ -162,15 +178,6 @@ export default function Students() {
 
                 return (
                   <tr key={index}>
-                    <td className={classes}>
-                      <Typography
-                        variant="small"
-                        color="blue-gray"
-                        className="font-normal"
-                      >
-                        {student?.student_list?.course_name}
-                      </Typography>
-                    </td>
                     <td className={classes}>
                       <Typography
                         variant="small"
@@ -197,21 +204,49 @@ export default function Students() {
                         color="blue-gray"
                         className="font-medium"
                       >
-                        {student?.student_list?.email}
+                        {student?.student_list?.student?.guardian_name}
                       </Typography>
                     </td>
                     <td className={classes}>
-                      <Button color="blue" size="sm">
+                      <Typography
+                        as="a"
+                        href="#"
+                        variant="small"
+                        color="blue-gray"
+                        className="font-medium"
+                      >
+                        {student?.student_list?.student?.guardian_number}
+                      </Typography>
+                    </td>
+                    <td className={classes}>
+                      <Button
+                        onClick={() => handleOpen(student?.student_list)}
+                        color="blue"
+                        size="sm"
+                      >
                         View
                       </Button>
                     </td>
                   </tr>
                 );
               })}
-            </tbody> */}
+            </tbody>
           </table>
         </Card>
       )}
+      <Dialog open={open} handler={handleOpen}>
+        <DialogBody className="relative p-5 text-black">
+          <p>Name: {data?.name} </p>
+          <p>DOB: {data?.student?.dob} </p>
+          <p>Email: {data?.email} </p>
+          <p>Phone: {data?.phone_number} </p>
+          <p>Gurdian: {data?.student?.guardian_name} </p>
+          <p>Phone: {data?.student?.guardian_number} </p>
+          <button onClick={()=>setOpen(!open)} className="absolute top-0 right-0">
+            <IoIosCloseCircle className="text-3xl text-red-500"/>
+          </button>
+        </DialogBody>
+      </Dialog>
     </section>
   );
 }

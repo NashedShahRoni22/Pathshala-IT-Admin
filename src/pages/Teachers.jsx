@@ -56,6 +56,10 @@ export default function Teachers() {
         window.alert("Teacher Added Successfully!");
         e.target.reset();
       }
+      else{
+        window.alert("This phone number can't be use.");
+        e.target.reset();
+      }
     } catch (error) {
       console.log("Error making POST request: " + error);
     } finally {
@@ -125,7 +129,7 @@ export default function Teachers() {
     fetchData();
   }, []);
 
-  const TABLE_HEAD = ["Name", "Designation", "Phone", "Role"];
+  const TABLE_HEAD = ["Name", "Designation", "Phone"];
   return (
     <section className="px-10 py-10">
       <form
@@ -233,11 +237,6 @@ export default function Teachers() {
                     >
                       {b?.phone_number}
                     </Typography>
-                  </td>
-                  <td className={classes}>
-                    <Button color="blue" size="sm">
-                      View
-                    </Button>
                   </td>
                 </tr>
               );

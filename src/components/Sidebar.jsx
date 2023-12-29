@@ -31,7 +31,7 @@ import { GiConvergenceTarget } from "react-icons/gi";
 import { SiGoogleclassroom } from "react-icons/si";
 import { PiChalkboardTeacherDuotone, PiStudent } from "react-icons/pi";
 import { FaBell } from "react-icons/fa";
-import { CiLogout } from "react-icons/ci";
+import { IoMdLogOut } from "react-icons/io";
 import { IoMdSend } from "react-icons/io";
 
 export default function Sidebar() {
@@ -117,19 +117,22 @@ export default function Sidebar() {
   };
 
   return (
-    <section className="shadow">
+    <section className="shadow-xl min-h-screen">
       <div className="mb-2 flex justify-between items-center p-5 relative">
         <img src={logo} className="h-[40px]" alt="" />
-        <div
-          onClick={handleModal}
-          className="p-2 bg-blue-500 rounded-full relative cursor-pointer"
-        >
-          <FaBell className="text-xl text-white" />
-          {notifications[0]?.read_status === null && (
-            <div className="h-2.5 w-2.5 bg-blue-500 rounded-full shadow-xl absolute -top-2 right-0"></div>
-          )}
-        </div>
-        {openModal && role === "super_admin" && (
+
+        {role === "super_admin" && (
+          <div
+            onClick={handleModal}
+            className="p-2 bg-blue-500 rounded-full relative cursor-pointer"
+          >
+            <FaBell className="text-xl text-white" />
+            {notifications[0]?.read_status === null && (
+              <div className="h-2.5 w-2.5 bg-blue-500 rounded-full shadow-xl absolute -top-2 right-0"></div>
+            )}
+          </div>
+        )}
+        {openModal && (
           <div className="modal-content absolute z-50 p-5 min-w-[400px] h-[60vh] overflow-y-scroll bg-white top-16 left-48 rounded-xl shadow-xl">
             {notifications?.map((n, i) => (
               <div
@@ -178,7 +181,7 @@ export default function Sidebar() {
             Dashboard
           </ListItem>
         </Link>
-        {role === "super_admin" && (
+        {role === "super_admin" ? (
           <>
             <Link to="/root/add_addmission">
               <ListItem>
@@ -186,6 +189,14 @@ export default function Sidebar() {
                   <BsPlusCircle className="h-5 w-5" />
                 </ListItemPrefix>
                 Add Addmission
+              </ListItem>
+            </Link>
+            <Link to="/root/add_free_course">
+              <ListItem>
+                <ListItemPrefix>
+                  <BsPlusCircle className="h-5 w-5" />
+                </ListItemPrefix>
+                Add Free Course
               </ListItem>
             </Link>
             <Link to="/root/add_success_stories">
@@ -387,78 +398,99 @@ export default function Sidebar() {
                 </List>
               </AccordionBody>
             </Accordion>
-          </>
-        )}
-
-        <Accordion
-          open={open === 4}
-          icon={
-            <BsChevronDown
-              strokeWidth={1}
-              className={`mx-auto h-4 w-4 transition-transform ${
-                open === 4 ? "rotate-180" : ""
-              }`}
-            />
-          }
-        >
-          <ListItem className="p-0" selected={open === 4}>
-            <AccordionHeader
-              onClick={() => handleOpen(4)}
-              className="border-b-0 p-3"
+            <Accordion
+              open={open === 4}
+              icon={
+                <BsChevronDown
+                  strokeWidth={1}
+                  className={`mx-auto h-4 w-4 transition-transform ${
+                    open === 4 ? "rotate-180" : ""
+                  }`}
+                />
+              }
             >
-              <ListItemPrefix>
-                <FiUserPlus className="h-5 w-5" />
-              </ListItemPrefix>
-              <Typography color="blue-gray" className="mr-auto font-normal">
-                Batch
-              </Typography>
-            </AccordionHeader>
-          </ListItem>
-          <AccordionBody className="py-1">
-            <List className="p-0 ml-5">
-              <Link to="/root/create_batch">
-                <ListItem>
-                  <ListItemPrefix>
-                    <BsPlusCircle className="h-5 w-5" />
-                  </ListItemPrefix>
-                  Create Batch
-                </ListItem>
-              </Link>
-              <Link to="/root/assign_student">
-                <ListItem>
+              <ListItem className="p-0" selected={open === 4}>
+                <AccordionHeader
+                  onClick={() => handleOpen(4)}
+                  className="border-b-0 p-3"
+                >
                   <ListItemPrefix>
                     <FiUserPlus className="h-5 w-5" />
                   </ListItemPrefix>
-                  Assign Students
-                </ListItem>
-              </Link>
-              <Link to="/root/add_course_material">
-                <ListItem>
-                  <ListItemPrefix>
-                    <FaCloudUploadAlt className="h-5 w-5" />
-                  </ListItemPrefix>
-                  Upload Course Material
-                </ListItem>
-              </Link>
-              <Link to="/root/batch_overview">
-                <ListItem>
-                  <ListItemPrefix>
-                    <SiGoogleclassroom className="h-5 w-5" />
-                  </ListItemPrefix>
-                  Batch Overview
-                </ListItem>
-              </Link>
-            </List>
-          </AccordionBody>
-        </Accordion>
-        <Link
-          onClick={() => localStorage.clear()}
-          to="/"
-          className="mt-10 flex gap-2 justify-center items-center rounded-xl w-fit px-4 py-2 bg-red-500 text-white"
-        >
-          {" "}
-          <CiLogout className="text-xl" /> Log Out
-        </Link>
+                  <Typography color="blue-gray" className="mr-auto font-normal">
+                    Batch
+                  </Typography>
+                </AccordionHeader>
+              </ListItem>
+              <AccordionBody className="py-1">
+                <List className="p-0 ml-5">
+                  <Link to="/root/create_batch">
+                    <ListItem>
+                      <ListItemPrefix>
+                        <BsPlusCircle className="h-5 w-5" />
+                      </ListItemPrefix>
+                      Create Batch
+                    </ListItem>
+                  </Link>
+                  <Link to="/root/assign_student">
+                    <ListItem>
+                      <ListItemPrefix>
+                        <FiUserPlus className="h-5 w-5" />
+                      </ListItemPrefix>
+                      Assign Students
+                    </ListItem>
+                  </Link>
+                  <Link to="/root/add_course_material">
+                    <ListItem>
+                      <ListItemPrefix>
+                        <FaCloudUploadAlt className="h-5 w-5" />
+                      </ListItemPrefix>
+                      Upload Course Material
+                    </ListItem>
+                  </Link>
+                  <Link to="/root/batch_overview">
+                    <ListItem>
+                      <ListItemPrefix>
+                        <SiGoogleclassroom className="h-5 w-5" />
+                      </ListItemPrefix>
+                      Batch Overview
+                    </ListItem>
+                  </Link>
+                </List>
+              </AccordionBody>
+            </Accordion>
+          </>
+        ) : (
+          <>
+            <Link to="/root/add_course_material">
+              <ListItem>
+                <ListItemPrefix>
+                  <FaCloudUploadAlt className="h-5 w-5" />
+                </ListItemPrefix>
+                Upload Course Material
+              </ListItem>
+            </Link>
+            <Link to="/root/batch_overview">
+              <ListItem>
+                <ListItemPrefix>
+                  <SiGoogleclassroom className="h-5 w-5" />
+                </ListItemPrefix>
+                Batch Overview
+              </ListItem>
+            </Link>
+          </>
+        )}
+        <div className="flex justify-center">
+          <Link
+            onClick={() => localStorage.clear()}
+            to="/"
+            className="mt-10 flex gap-2 justify-center items-center rounded-full w-fit px-4 py-2 bg-red-500 text-white"
+          >
+            {" "}
+            <IoMdLogOut className="text-xl" />
+            Log Out
+          </Link>
+        </div>
       </List>
     </section>
   );

@@ -7,7 +7,6 @@ export default function BatchDetails() {
   const { id } = useParams();
   const [students, setStudents] = useState([]);
   const [materials, setMaterials] = useState([]);
-  console.log(materials, students);
   const [dataLoading, setDataLoading] = useState(false);
   const accessToken = localStorage.getItem("accessToken");
   const [view, setView] = useState(1);
@@ -18,7 +17,7 @@ export default function BatchDetails() {
     const fetchData = async () => {
       try {
         const response = await fetch(
-          `https://api.pathshalait.com/api/v1/student/filter?batch_id=${id}&course_id=${null}`,
+          `https://api.pathshalait.com/api/v1/student/filter?batch_id=${id}&course_id=${""}`,
           {
             method: "GET",
             headers: {
@@ -87,8 +86,7 @@ export default function BatchDetails() {
         <Loader />
       ) : (
         <div>
-          <h1 className="text-xl font-semibold">Batch details</h1>
-          <div className="flex gap-2 mt-5">
+          <div className="flex gap-2">
             <button
               onClick={() => setView(1)}
               className={`px-4 py-2 rounded-full ${
@@ -143,7 +141,7 @@ export default function BatchDetails() {
                               color="blue-gray"
                               className="font-normal"
                             >
-                              {m?.name}
+                              {m?.student_list?.name}
                             </Typography>
                           </td>
                           <td className={classes}>
@@ -152,7 +150,7 @@ export default function BatchDetails() {
                               color="blue-gray"
                               className="font-normal"
                             >
-                              {m?.email}
+                              {m?.student_list?.email}
                             </Typography>
                           </td>
                           <td className={classes}>
@@ -161,7 +159,7 @@ export default function BatchDetails() {
                               color="blue-gray"
                               className="font-normal"
                             >
-                              {m?.phone_number}
+                              {m?.student_list?.phone_number}
                             </Typography>
                           </td>
                         </tr>

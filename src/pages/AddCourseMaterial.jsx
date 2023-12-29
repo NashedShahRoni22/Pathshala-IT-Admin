@@ -130,6 +130,7 @@ export default function AddCourseMaterial() {
           color="blue"
           type="submit"
           className="flex items-center gap-2 justify-center"
+          disabled={batch === ""}
         >
           Upload
           {postLoader && <Spinner className="h-4 w-4" />}

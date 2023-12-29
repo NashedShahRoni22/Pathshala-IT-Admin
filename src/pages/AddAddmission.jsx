@@ -157,10 +157,7 @@ export default function AddAddmission() {
 
   return (
     <section className="px-10 py-10">
-      <form
-        onSubmit={handaleSubmit}
-        className="lg:w-1/3 shadow rounded-xl p-5"
-      >
+      <form onSubmit={handaleSubmit} className="lg:w-1/3 shadow rounded-xl p-5">
         <h1 className="text-xl font-semibold">Add addmission</h1>
         <div className="mt-5 flex flex-col gap-2.5">
           <Select
@@ -185,7 +182,11 @@ export default function AddAddmission() {
               ))}
             </Select>
 
-            <Button onClick={handleOpen} className="bg-blue-400" size="sm">
+            <Button
+              onClick={handleOpen}
+              className={`bg-blue-400 ${weekDays.length > 0 && "bg-green-500"}`}
+              size="sm"
+            >
               View
             </Button>
           </div>
@@ -193,22 +194,25 @@ export default function AddAddmission() {
             label="Admission start date"
             name="startDate"
             type="datetime-local"
+            required
           />
           <Input
             label="Admission end date"
             name="endDate"
             type="datetime-local"
+            required
           />
           <Input
             label="Select class start date"
             name="classStartDate"
             type="date"
+            required
           />
 
-          <Input label="Select class start time" name="startTime" type="time" />
-          <Input label="Select class end time" name="endTime" type="time" />
+          <Input required label="Select class start time" name="startTime" type="time" />
+          <Input required label="Select class end time" name="endTime" type="time" />
 
-          <Button className="bg-blue-400" type="submit">
+          <Button className="bg-blue-400" type="submit" disabled={course === "" || weekDays.length === 0}>
             {loading ? "Loading" : "Submit"}
           </Button>
         </div>
@@ -254,7 +258,9 @@ export default function AddAddmission() {
         <div className="mt-5 grid lg:grid-cols-2 gap-5">
           {admissionData?.map((a, i) => (
             <div key={i} className="shadow rounded p-5 relative">
-              <p className="text-3xl font-bold text-blue-400 p-5 shadow rounded-full w-fit absolute right-2 bottom-2">0{i+1}</p>
+              <p className="text-3xl font-bold text-blue-400 p-5 shadow rounded-full w-fit absolute right-2 bottom-2">
+                0{i + 1}
+              </p>
               <p>
                 {" "}
                 <span className="font-semibold">Course Name:</span>{" "}
