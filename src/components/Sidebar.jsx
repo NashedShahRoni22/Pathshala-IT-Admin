@@ -488,7 +488,7 @@ export default function Sidebar() {
           >
             {" "}
             <IoMdLogOut className="text-xl" />
-            Log Out
+            Logout
           </Link>
         </div>
       </List>

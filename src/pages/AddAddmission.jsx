@@ -209,10 +209,24 @@ export default function AddAddmission() {
             required
           />
 
-          <Input required label="Select class start time" name="startTime" type="time" />
-          <Input required label="Select class end time" name="endTime" type="time" />
+          <Input
+            required
+            label="Select class start time"
+            name="startTime"
+            type="time"
+          />
+          <Input
+            required
+            label="Select class end time"
+            name="endTime"
+            type="time"
+          />
 
-          <Button className="bg-blue-400" type="submit" disabled={course === "" || weekDays.length === 0}>
+          <Button
+            className="bg-blue-400"
+            type="submit"
+            disabled={course === "" || weekDays.length === 0}
+          >
             {loading ? "Loading" : "Submit"}
           </Button>
         </div>
@@ -257,10 +271,14 @@ export default function AddAddmission() {
         <h1 className="font-semibold text-xl">Admission notice list:</h1>
         <div className="mt-5 grid lg:grid-cols-2 gap-5">
           {admissionData?.map((a, i) => (
-            <div key={i} className="shadow rounded p-5 relative">
-              <p className="text-3xl font-bold text-blue-400 p-5 shadow rounded-full w-fit absolute right-2 bottom-2">
-                0{i + 1}
-              </p>
+            <div key={i} className="shadow rounded p-5">
+              <div className="flex justify-between">
+                <p className="font-semibold">Notice Number: 0{i + 1}</p>
+                <Button size="sm" className="bg-blue-500">
+                  Update
+                </Button>
+              </div>
+              <div className="h-0.5 bg-blue-500 my-2.5"></div>
               <p>
                 {" "}
                 <span className="font-semibold">Course Name:</span>{" "}

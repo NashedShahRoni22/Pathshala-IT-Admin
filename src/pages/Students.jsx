@@ -120,6 +120,18 @@ export default function Students() {
 
   const TABLE_HEAD = ["Name", "Phone", "Gurdian", "Phone", ""];
 
+  //print pdf
+  function printDiv(divId) {
+    var printContents = document.getElementById(divId).innerHTML;
+    var originalContents = document.body.innerHTML;
+
+    document.body.innerHTML = printContents;
+
+    window.print();
+
+    document.body.innerHTML = originalContents;
+  }
+
   return (
     <section className="mx-5 my-10">
       <div className="mt-10 flex justify-between items-center">
@@ -146,93 +158,107 @@ export default function Students() {
           Wish Birthday
         </Link>
       </div>
+
       {loader ? (
         <Loader />
       ) : (
-        <Card className="h-full w-full overflow-scroll mt-10">
-          <table className="w-full min-w-max table-auto text-left">
-            <thead>
-              <tr>
-                {TABLE_HEAD.map((head) => (
-                  <th
-                    key={head}
-                    className="border-b border-blue-gray-100 bg-blue-gray-50 p-4"
-                  >
-                    <Typography
-                      variant="small"
-                      color="blue-gray"
-                      className="font-normal leading-none opacity-70"
+        <>
+          <Card
+            id="student-details"
+            className="h-full w-full overflow-scroll mt-10"
+          >
+            <table className="w-full min-w-max table-auto text-left">
+              <thead>
+                <tr>
+                  {TABLE_HEAD.map((head) => (
+                    <th
+                      key={head}
+                      className="border-b border-blue-gray-100 bg-blue-gray-50 p-4"
                     >
-                      {head}
-                    </Typography>
-                  </th>
-                ))}
-              </tr>
-            </thead>
-            <tbody>
-              {students?.map((student, index) => {
-                const isLast = index === students.length - 1;
-                const classes = isLast
-                  ? "p-4"
-                  : "p-4 border-b border-blue-gray-50";
+                      <Typography
+                        variant="small"
+                        color="blue-gray"
+                        className="font-normal leading-none opacity-70"
+                      >
+                        {head}
+                      </Typography>
+                    </th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody>
+                {students?.map((student, index) => {
+                  const isLast = index === students.length - 1;
+                  const classes = isLast
+                    ? "p-4"
+                    : "p-4 border-b border-blue-gray-50";
 
-                return (
-                  <tr key={index}>
-                    <td className={classes}>
-                      <Typography
-                        variant="small"
-                        color="blue-gray"
-                        className="font-normal"
-                      >
-                        {student?.student_list?.name}
-                      </Typography>
-                    </td>
-                    <td className={classes}>
-                      <Typography
-                        variant="small"
-                        color="blue-gray"
-                        className="font-normal"
-                      >
-                        {student?.student_list?.phone_number}
-                      </Typography>
-                    </td>
-                    <td className={classes}>
-                      <Typography
-                        as="a"
-                        href="#"
-                        variant="small"
-                        color="blue-gray"
-                        className="font-medium"
-                      >
-                        {student?.student_list?.student?.guardian_name}
-                      </Typography>
-                    </td>
-                    <td className={classes}>
-                      <Typography
-                        as="a"
-                        href="#"
-                        variant="small"
-                        color="blue-gray"
-                        className="font-medium"
-                      >
-                        {student?.student_list?.student?.guardian_number}
-                      </Typography>
-                    </td>
-                    <td className={classes}>
-                      <Button
-                        onClick={() => handleOpen(student?.student_list)}
-                        color="blue"
-                        size="sm"
-                      >
-                        View
-                      </Button>
-                    </td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
-        </Card>
+                  return (
+                    <tr key={index}>
+                      <td className={classes}>
+                        <Typography
+                          variant="small"
+                          color="blue-gray"
+                          className="font-normal"
+                        >
+                          {student?.student_list?.name}
+                        </Typography>
+                      </td>
+                      <td className={classes}>
+                        <Typography
+                          variant="small"
+                          color="blue-gray"
+                          className="font-normal"
+                        >
+                          {student?.student_list?.phone_number}
+                        </Typography>
+                      </td>
+                      <td className={classes}>
+                        <Typography
+                          as="a"
+                          href="#"
+                          variant="small"
+                          color="blue-gray"
+                          className="font-medium"
+                        >
+                          {student?.student_list?.student?.guardian_name}
+                        </Typography>
+                      </td>
+                      <td className={classes}>
+                        <Typography
+                          as="a"
+                          href="#"
+                          variant="small"
+                          color="blue-gray"
+                          className="font-medium"
+                        >
+                          {student?.student_list?.student?.guardian_number}
+                        </Typography>
+                      </td>
+                      <td className={classes}>
+                        <Button
+                          onClick={() => handleOpen(student?.student_list)}
+                          color="blue"
+                          size="sm"
+                        >
+                          View
+                        </Button>
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </Card>
+          <div className="flex justify-end mt-5 mr-5">
+            <button
+              onClick={() => printDiv("student-details")}
+              className="px-4 py-2 w-fit bg-blue-500 text-white shadow rounded"
+            >
+              Download
+            </button>
+          </div>
+        </>
       )}
       <Dialog open={open} handler={handleOpen}>
         <DialogBody className="relative p-5 text-black">
@@ -242,8 +268,11 @@ export default function Students() {
           <p>Phone: {data?.phone_number} </p>
           <p>Gurdian: {data?.student?.guardian_name} </p>
           <p>Phone: {data?.student?.guardian_number} </p>
-          <button onClick={()=>setOpen(!open)} className="absolute top-0 right-0">
-            <IoIosCloseCircle className="text-3xl text-red-500"/>
+          <button
+            onClick={() => setOpen(!open)}
+            className="absolute top-0 right-0"
+          >
+            <IoIosCloseCircle className="text-3xl text-red-500" />
           </button>
         </DialogBody>
       </Dialog>
