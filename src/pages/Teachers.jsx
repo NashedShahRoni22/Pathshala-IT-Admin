@@ -129,7 +129,7 @@ export default function Teachers() {
     fetchData();
   }, []);
 
-  const TABLE_HEAD = ["Name", "Designation", "Phone"];
+  const TABLE_HEAD = ["Name", "Designation", "Phone", ""];
   return (
     <section className="px-10 py-10">
       <form
@@ -237,6 +237,9 @@ export default function Teachers() {
                     >
                       {b?.phone_number}
                     </Typography>
+                  </td>
+                  <td className={classes}>
+                    <Button size="sm" className="bg-orange-500" >Deactive</Button>
                   </td>
                 </tr>
               );

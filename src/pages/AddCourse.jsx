@@ -30,6 +30,7 @@ export default function AddCourse() {
   //data management
   const [image, setImage] = useState(null);
   const [name, setName] = useState("");
+  const [uniqueId, setUniqueId] = useState("");
   const [categoreyId, setCategoreyId] = useState("");
   const [courseType, setCourseType] = useState("");
   const [slogan, setslogan] = useState("");
@@ -98,7 +99,6 @@ export default function AddCourse() {
     // Check if the value is not empty and not already selected
     if (value && !professions.includes(value)) {
       setProfessions([...professions, value]);
-      // setSubSpecialityId(""); // Clear the input after selection
     }
   };
   const removeProfession = (value) => {
@@ -136,7 +136,7 @@ export default function AddCourse() {
 
     fetchData();
   }, []);
-  
+
   // get tools
   useEffect(() => {
     // Only call the API when accessToken is available and loading is true
@@ -175,6 +175,7 @@ export default function AddCourse() {
     const postData = {
       image,
       name,
+      uniqueId,
       categoreyId,
       courseType,
       slogan,
@@ -195,6 +196,7 @@ export default function AddCourse() {
     formData.append("course_image", image);
     formData.append("category_id", categoreyId);
     formData.append("name", name);
+    formData.append("unique_course_id", uniqueId);
     formData.append("slogan", slogan);
     formData.append("amount", amount);
     formData.append("discount_amount", discountAmount);
@@ -226,6 +228,7 @@ export default function AddCourse() {
       );
 
       const responseData = await response.json();
+      // console.log(responseData);
       if (responseData.status === true) {
         window.alert("Course added successfully!");
         window.location.reload();
@@ -272,32 +275,47 @@ export default function AddCourse() {
             <Option value={1}>Online</Option>
             <Option value={2}>Offline</Option>
           </Select>
-          <Input label="Enter Name" onChange={(e) => setName(e.target.value)} />
           <Input
+            required
+            label="Enter Name"
+            onChange={(e) => setName(e.target.value)}
+          />
+          <Input
+            required
+            label="Enter Unique 2 Digit ID"
+            onChange={(e) => setUniqueId(e.target.value)}
+          />
+          <Input
+            required
             label="Enter Slogan"
             onChange={(e) => setslogan(e.target.value)}
           />
           <Input
+            required
             label="Amount"
             onChange={(e) => setAmount(e.target.value)}
             type="number"
           />
           <Input
+            required
             label="Discount Amount"
             onChange={(e) => setdiscountAmount(e.target.value)}
             type="number"
           />
           <Input
+            required
             label="Course Duration"
             onChange={(e) => setduration(e.target.value)}
             type="number"
           />
           <Input
+            required
             label="Total Lecture"
             onChange={(e) => setlectures(e.target.value)}
             type="number"
           />
           <Input
+            required
             label="Total Project"
             onChange={(e) => setprojects(e.target.value)}
             type="number"
@@ -306,12 +324,14 @@ export default function AddCourse() {
 
         <div className="mt-5 md:flex gap-5">
           <Textarea
+            required
             label="Enter First Opportunity"
             onChange={(e) => setopportunitie1(e.target.value)}
             type="text"
             rows={4}
           />
           <Textarea
+            required
             label="Enter Second Opportunity"
             onChange={(e) => setopportunitie2(e.target.value)}
             type="text"
@@ -349,7 +369,7 @@ export default function AddCourse() {
               )}
               <Dialog open={open3} handler={handleOpen3}>
                 <DialogHeader>Softwares</DialogHeader>
-                <DialogBody divider>
+                <DialogBody divider className="h-[42rem] overflow-scroll">
                   {softwares.length > 0 ? (
                     <div className="grid grid-cols-2 gap-4">
                       {softwares.map((s, i) => (
@@ -419,7 +439,7 @@ export default function AddCourse() {
               )}
               <Dialog open={open4} handler={handleOpen4}>
                 <DialogHeader>Professions</DialogHeader>
-                <DialogBody divider>
+                <DialogBody divider className="h-[42rem] overflow-scroll">
                   {professions.length > 0 ? (
                     <div className="grid grid-cols-2 gap-4">
                       {professions.map((s, i) => (
@@ -498,7 +518,7 @@ export default function AddCourse() {
               )}
               <Dialog open={open} handler={handleOpen}>
                 <DialogHeader>Curriculums</DialogHeader>
-                <DialogBody divider>
+                <DialogBody divider className="h-[42rem] overflow-scroll">
                   {curriculums.length > 0 ? (
                     <div className="flex flex-col gap-4">
                       {curriculums.map((c, i) => (
@@ -568,7 +588,7 @@ export default function AddCourse() {
               )}
               <Dialog open={open2} handler={handleOpen2}>
                 <DialogHeader>Positions</DialogHeader>
-                <DialogBody divider>
+                <DialogBody divider className="h-[42rem] overflow-scroll">
                   {positions.length > 0 ? (
                     <div className="flex flex-col gap-4">
                       {positions.map((c, i) => (
@@ -610,14 +630,16 @@ export default function AddCourse() {
             onChange={(e) => setoverview(e.target.value)}
             label="Enter Overview"
             rows={8}
+            required
           />
           <Textarea
             onChange={(e) => setdescription(e.target.value)}
             label="Enter Description"
             rows={8}
+            required
           />
         </div>
-        <Button onClick={handleAddCourse} className="mt-5">
+        <Button type="submit" onClick={handleAddCourse} className="mt-5">
           {postLoading ? "Loading..." : "Add"}
         </Button>
       </div>

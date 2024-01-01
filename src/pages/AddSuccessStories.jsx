@@ -162,6 +162,7 @@ export default function AddSuccessStories() {
         <h1 className="text-xl font-semibold mb-5">Add Success Stories</h1>
         <div className="flex flex-col gap-2.5">
           <input type="file" onChange={(e) => setImage(e.target.files[0])} />
+          <p className="text-red-500 text-sm">Image size will be (585px * 340px)</p>
           <Select label="Select Course" onChange={(value) => setCourse(value)}>
             {courses.map((b) => (
               <Option value={b.id}>{b?.name}</Option>
@@ -181,14 +182,12 @@ export default function AddSuccessStories() {
         {stories.map((s, i) => (
           <div key={i} className="p-2 shadow-xl rounded-xl">
             <img src={s?.thumbnail_image} />
+            
             <div className="mt-5 flex justify-between">
-              <Button className="bg-blue-500" size="sm">
-                View
-              </Button>
               {s?.status === 1 ? (
                 <Button
                   onClick={() => deactiveStory(s?.id, "inactive")}
-                  className="bg-red-500"
+                  className="bg-orange-500"
                   size="sm"
                 >
                   Deactive
@@ -202,6 +201,9 @@ export default function AddSuccessStories() {
                   Active
                 </Button>
               )}
+              <Button className="bg-red-500" size="sm">
+                Delete
+              </Button>
             </div>
           </div>
         ))}

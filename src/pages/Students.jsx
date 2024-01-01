@@ -10,7 +10,6 @@ import {
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Loader from "../components/Loader";
-import { IoIosCloseCircle } from "react-icons/io";
 
 export default function Students() {
   const accessToken = localStorage.getItem("accessToken");
@@ -23,12 +22,6 @@ export default function Students() {
   const [loader, setLoader] = useState(false);
 
   const [open, setOpen] = React.useState(false);
-  const [data, setData] = React.useState({});
-
-  const handleOpen = (details) => {
-    setOpen(!open);
-    setData(details);
-  };
 
   // get batches
   useEffect(() => {
@@ -118,7 +111,7 @@ export default function Students() {
     fetchData();
   }, [batch, course]);
 
-  const TABLE_HEAD = ["Name", "Phone", "Gurdian", "Phone", ""];
+  const TABLE_HEAD = ["Name", "Phone", "Email", "Gurdian", "Phone"];
 
   //print pdf
   function printDiv(divId) {
@@ -165,7 +158,7 @@ export default function Students() {
         <>
           <Card
             id="student-details"
-            className="h-full w-full overflow-scroll mt-10"
+            className="h-full w-full overflow-x-scroll mt-10"
           >
             <table className="w-full min-w-max table-auto text-left">
               <thead>
@@ -215,6 +208,15 @@ export default function Students() {
                       </td>
                       <td className={classes}>
                         <Typography
+                          variant="small"
+                          color="blue-gray"
+                          className="font-normal"
+                        >
+                          {student?.student_list?.email}
+                        </Typography>
+                      </td>
+                      <td className={classes}>
+                        <Typography
                           as="a"
                           href="#"
                           variant="small"
@@ -235,15 +237,6 @@ export default function Students() {
                           {student?.student_list?.student?.guardian_number}
                         </Typography>
                       </td>
-                      <td className={classes}>
-                        <Button
-                          onClick={() => handleOpen(student?.student_list)}
-                          color="blue"
-                          size="sm"
-                        >
-                          View
-                        </Button>
-                      </td>
                     </tr>
                   );
                 })}
@@ -260,22 +253,6 @@ export default function Students() {
           </div>
         </>
       )}
-      <Dialog open={open} handler={handleOpen}>
-        <DialogBody className="relative p-5 text-black">
-          <p>Name: {data?.name} </p>
-          <p>DOB: {data?.student?.dob} </p>
-          <p>Email: {data?.email} </p>
-          <p>Phone: {data?.phone_number} </p>
-          <p>Gurdian: {data?.student?.guardian_name} </p>
-          <p>Phone: {data?.student?.guardian_number} </p>
-          <button
-            onClick={() => setOpen(!open)}
-            className="absolute top-0 right-0"
-          >
-            <IoIosCloseCircle className="text-3xl text-red-500" />
-          </button>
-        </DialogBody>
-      </Dialog>
     </section>
   );
 }

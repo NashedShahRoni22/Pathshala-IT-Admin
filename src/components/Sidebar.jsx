@@ -117,8 +117,8 @@ export default function Sidebar() {
   };
 
   return (
-    <section className="shadow-xl min-h-screen">
-      <div className="mb-2 flex justify-between items-center p-5 relative">
+    <section className="shadow-xl min-h-screen rounded-b-xl pb-10">
+      <div className="flex justify-between items-center p-5 relative">
         <img src={logo} className="h-[40px]" alt="" />
 
         {role === "super_admin" && (
@@ -132,6 +132,7 @@ export default function Sidebar() {
             )}
           </div>
         )}
+
         {openModal && (
           <div className="modal-content absolute z-50 p-5 min-w-[400px] h-[60vh] overflow-y-scroll bg-white top-16 left-48 rounded-xl shadow-xl">
             {notifications?.map((n, i) => (
@@ -183,46 +184,6 @@ export default function Sidebar() {
         </Link>
         {role === "super_admin" ? (
           <>
-            <Link to="/root/add_addmission">
-              <ListItem>
-                <ListItemPrefix>
-                  <BsPlusCircle className="h-5 w-5" />
-                </ListItemPrefix>
-                Add Addmission
-              </ListItem>
-            </Link>
-            <Link to="/root/add_free_course">
-              <ListItem>
-                <ListItemPrefix>
-                  <BsPlusCircle className="h-5 w-5" />
-                </ListItemPrefix>
-                Add Free Course
-              </ListItem>
-            </Link>
-            <Link to="/root/add_success_stories">
-              <ListItem>
-                <ListItemPrefix>
-                  <BsPlusCircle className="h-5 w-5" />
-                </ListItemPrefix>
-                Add Success Stories
-              </ListItem>
-            </Link>
-            <Link to="/root/add_seminar">
-              <ListItem>
-                <ListItemPrefix>
-                  <BsPlusCircle className="h-5 w-5" />
-                </ListItemPrefix>
-                Add Seminar
-              </ListItem>
-            </Link>
-            <Link to="/root/send_sms">
-              <ListItem>
-                <ListItemPrefix>
-                  <IoMdSend className="h-5 w-5" />
-                </ListItemPrefix>
-                Send SMS
-              </ListItem>
-            </Link>
             <Link to="/root/discount_request">
               <ListItem>
                 <ListItemPrefix>
@@ -345,7 +306,7 @@ export default function Sidebar() {
                 </List>
               </AccordionBody>
             </Accordion>
-            <Accordion
+            {/* <Accordion
               open={open === 3}
               icon={
                 <BsChevronDown
@@ -397,7 +358,7 @@ export default function Sidebar() {
                   </Link>
                 </List>
               </AccordionBody>
-            </Accordion>
+            </Accordion> */}
             <Accordion
               open={open === 4}
               icon={
@@ -459,6 +420,46 @@ export default function Sidebar() {
                 </List>
               </AccordionBody>
             </Accordion>
+            <Link to="/root/add_addmission">
+              <ListItem>
+                <ListItemPrefix>
+                  <BsPlusCircle className="h-5 w-5" />
+                </ListItemPrefix>
+                Addmission
+              </ListItem>
+            </Link>
+            <Link to="/root/add_free_course">
+              <ListItem>
+                <ListItemPrefix>
+                  <BsPlusCircle className="h-5 w-5" />
+                </ListItemPrefix>
+                Free Course
+              </ListItem>
+            </Link>
+            <Link to="/root/add_success_stories">
+              <ListItem>
+                <ListItemPrefix>
+                  <BsPlusCircle className="h-5 w-5" />
+                </ListItemPrefix>
+                Success Stories
+              </ListItem>
+            </Link>
+            <Link to="/root/add_seminar">
+              <ListItem>
+                <ListItemPrefix>
+                  <BsPlusCircle className="h-5 w-5" />
+                </ListItemPrefix>
+                Seminar
+              </ListItem>
+            </Link>
+            <Link to="/root/send_sms">
+              <ListItem>
+                <ListItemPrefix>
+                  <IoMdSend className="h-5 w-5" />
+                </ListItemPrefix>
+                Send SMS
+              </ListItem>
+            </Link>
           </>
         ) : (
           <>
@@ -480,17 +481,18 @@ export default function Sidebar() {
             </Link>
           </>
         )}
-        <div className="flex justify-center">
-          <Link
-            onClick={() => localStorage.clear()}
-            to="/"
-            className="mt-10 flex gap-2 justify-center items-center rounded-full w-fit px-4 py-2 bg-red-500 text-white"
-          >
-            {" "}
-            <IoMdLogOut className="text-xl" />
+        <Link
+          onClick={() => localStorage.clear()}
+          to="/"
+          className="flex bg-red-500 text-white rounded-xl"
+        >
+          <ListItem>
+            <ListItemPrefix>
+              <IoMdLogOut className="h-5 w-5" />
+            </ListItemPrefix>
             Logout
-          </Link>
-        </div>
+          </ListItem>
+        </Link>
       </List>
     </section>
   );

@@ -66,7 +66,7 @@ export default function AddCategorey() {
       if (response.ok) {
         const responseData = await response.json();
         console.log(responseData);
-        window.alert("Categorey Added Successfully!")
+        window.alert("Categorey Added Successfully!");
       } else {
         console.log(
           "Error making POST request. Status code: " + response.status
@@ -104,11 +104,21 @@ export default function AddCategorey() {
           {dataLoading ? (
             "Loading Data ..."
           ) : (
-            <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+            <div className="grid md:grid-cols-2 gap-5">
               {categories?.map((c, i) => (
-                <div key={i} className="flex  gap-2 p-2.5 bg-white rounded items-center">
-                  <img src={c?.icon} className="h-[50px] w-[50px] rounded-full" alt="" />
-                  <p>{c?.name}</p>
+                <div
+                  key={i}
+                  className="flex p-2.5 bg-white rounded items-center justify-between"
+                >
+                  <div className="flex items-center gap-2.5">
+                    <img
+                      src={c?.icon}
+                      className="h-[50px] w-[50px] rounded-full"
+                      alt=""
+                    />
+                    <p>{c?.name}</p>
+                  </div>
+                  <Button size="sm" className="bg-blue-500">Update</Button>
                 </div>
               ))}
             </div>

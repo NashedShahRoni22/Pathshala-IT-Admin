@@ -118,9 +118,9 @@ export default function AddFreeCourse() {
 
     fetchData();
   }, []);
-  const TABLE_HEAD = ["Title", "URL", "View"];
+  const TABLE_HEAD = ["Title", "URL", ""];
   return (
-    <section className="px-5 py-10">
+    <section className="px-5 py-10 flex flex-col gap-10 lg:flex-row">
       <form onSubmit={handaleSubmit} className="shadow p-5 rounded-xl lg:w-1/3">
         <h1 className="text-xl font-semibold mb-5">Add Free Course</h1>
         <div className="flex flex-col gap-2.5">
@@ -140,7 +140,7 @@ export default function AddFreeCourse() {
           </Button>
         </div>
       </form>
-      <Card className="h-full w-full overflow-scroll mt-10">
+      <Card className="h-full w-full">
         <table className="w-full min-w-max table-auto text-left">
           <thead>
             <tr>
@@ -188,7 +188,7 @@ export default function AddFreeCourse() {
                     </Typography>
                   </td>
                   <td className={classes}>
-                    <Button size="sm" className="bg-blue-500" >View</Button>
+                    <Button size="sm" className="bg-red-500" >Delete</Button>
                   </td>
                 </tr>
               );

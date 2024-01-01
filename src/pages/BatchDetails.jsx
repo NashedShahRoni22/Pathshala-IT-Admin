@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Loader from "../components/Loader";
-import { Card, Typography } from "@material-tailwind/react";
+import { Button, Card, Typography } from "@material-tailwind/react";
 
 export default function BatchDetails() {
   const { id } = useParams();
@@ -91,7 +91,7 @@ export default function BatchDetails() {
   }
 
   const Student_HEAD = ["Name", "Email", "Phone"];
-  const Materials_HEAD = ["Name", "Date", "Title", "URL"];
+  const Materials_HEAD = ["Name", "Date", "Title", "URL", ""];
   return (
     <section className="px-10 py-10">
       {dataLoading ? (
@@ -258,6 +258,9 @@ export default function BatchDetails() {
                             >
                               {m?.url}
                             </Typography>
+                          </td>
+                          <td className={classes}>
+                            <Button size="sm" className="bg-red-500 text-white">Delete</Button>
                           </td>
                         </tr>
                       );

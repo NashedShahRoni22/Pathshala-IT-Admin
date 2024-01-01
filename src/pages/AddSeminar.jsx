@@ -132,8 +132,7 @@ export default function AddSeminar() {
       </form>
 
       <div className="mt-5">
-        <h1 className="text-xl font-semibolds">Seminar list:</h1>
-        <Card className="h-full w-full overflow-scroll mt-5">
+        <Card className="h-full w-full mt-5">
           <table className="w-full min-w-max table-auto text-left">
             <thead>
               <tr>
@@ -202,6 +201,7 @@ export default function AddSeminar() {
                     </td>
                     <td className={classes}>
                         <Link to={`/root/seminar_registered_user/${s?.id}`} className="px-4 py-2 bg-blue-500 text-white shadow rounded">View</Link>
+                        <button className="bg-red-500 px-4 py-1.5 ml-2 text-white shadow rounded">Delete</button>
                     </td>
                   </tr>
                 );

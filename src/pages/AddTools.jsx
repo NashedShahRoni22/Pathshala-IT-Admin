@@ -106,7 +106,7 @@ export default function AddTools() {
       </form>
       <div className="min-h-screen  lg:w-2/3 mt-10 lg:mt-0 bg-light-blue-50 rounded-xl p-5">
         <h5 className="font-semibold text-xl">Tools List</h5>
-        <div className="mt-5 grid grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="mt-5 grid md:grid-cols-2 gap-5">
           {dataLoading ? (
             "Loding Data..."
           ) : (
@@ -114,10 +114,13 @@ export default function AddTools() {
               {tools.map((t, i) => (
                 <div
                   key={i}
-                  className="flex gap-2 items-center p-2.5 rounded bg-white"
+                  className="flex justify-between items-center p-2.5 rounded bg-white"
                 >
-                  <img src={t?.icon} alt="" className="h-[50px] w-[50px]" />
-                  <p>{t?.name}</p>
+                  <div className="flex gap-2.5 items-center">
+                    <img src={t?.icon} alt="" className="h-[50px] w-[50px]" />
+                    <p>{t?.name}</p>
+                  </div>
+                  <Button size="sm" className="bg-red-500">Delete</Button>
                 </div>
               ))}
             </>
