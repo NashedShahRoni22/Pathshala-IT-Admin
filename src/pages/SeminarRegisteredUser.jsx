@@ -1,7 +1,6 @@
 import {
   Button,
   Card,
-  Input,
   Popover,
   PopoverContent,
   PopoverHandler,
@@ -14,7 +13,6 @@ export default function SeminarRegisteredUser() {
   const { id } = useParams();
   const accessToken = localStorage.getItem("accessToken");
   const [registeredUser, setRegisteredUser] = useState([]);
-  console.log(registeredUser);
   const [postLoading, setPostLoading] = useState(false);
 
   const TABLE_HEAD = ["Name", "Email", "Phone", "Address", "Status", "Action"];

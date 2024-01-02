@@ -8,6 +8,7 @@ import {
   Typography,
 } from "@material-tailwind/react";
 import React, { useEffect, useState } from "react";
+import Loader from "../components/Loader";
 
 export default function AddFreeCourse() {
   const accessToken = localStorage.getItem("accessToken");
@@ -15,6 +16,7 @@ export default function AddFreeCourse() {
   const [freeCourses, setFreeCourses] = useState([]);
   const [course, setCourse] = useState("");
   const [loading, setLoading] = useState(false);
+  const [getLoading, setGetLoading] = useState(false);
   // get course
   useEffect(() => {
     const fetchData = async () => {
@@ -73,9 +75,9 @@ export default function AddFreeCourse() {
       );
 
       const responseData = await response.json();
+      console.log(responseData);
       if (responseData.status === true) {
         window.alert("Free Courses added successfully!");
-        window.location.reload();
       } else {
         console.log(
           "Error making POST request. Status code: " + response.status
@@ -91,6 +93,7 @@ export default function AddFreeCourse() {
   // get free courses
   useEffect(() => {
     const fetchData = async () => {
+      setGetLoading(true);
       try {
         const response = await fetch(
           "https://api.pathshalait.com/api/v1/free_course_materials/videos",
@@ -113,18 +116,20 @@ export default function AddFreeCourse() {
       } catch (error) {
         console.log("Error making GET request: " + error);
       } finally {
+        setGetLoading(false);
       }
     };
 
     fetchData();
-  }, []);
+  }, [loading]);
+  
   const TABLE_HEAD = ["Title", "URL", ""];
   return (
-    <section className="px-5 py-10 flex flex-col gap-10 lg:flex-row">
+    <section className="px-10 py-10 flex flex-col gap-10 lg:flex-row">
       <form onSubmit={handaleSubmit} className="shadow p-5 rounded-xl lg:w-1/3">
         <h1 className="text-xl font-semibold mb-5">Add Free Course</h1>
         <div className="flex flex-col gap-2.5">
-          <Select label="Select Course" onChange={(value) => setCourse(value)}>
+          <Select label="Select Categorey" onChange={(value) => setCourse(value)}>
             {courses.map((b) => (
               <Option value={b.id}>{b?.name}</Option>
             ))}
@@ -140,62 +145,68 @@ export default function AddFreeCourse() {
           </Button>
         </div>
       </form>
-      <Card className="h-full w-full">
-        <table className="w-full min-w-max table-auto text-left">
-          <thead>
-            <tr>
-              {TABLE_HEAD.map((head) => (
-                <th
-                  key={head}
-                  className="border-b border-blue-gray-100 bg-blue-gray-50 p-4"
-                >
-                  <Typography
-                    variant="small"
-                    color="blue-gray"
-                    className="font-normal leading-none opacity-70"
+      {getLoading ? (
+        <Loader />
+      ) : (
+        <Card className="h-full w-full">
+          <table className="w-full min-w-max table-auto text-left">
+            <thead>
+              <tr>
+                {TABLE_HEAD.map((head) => (
+                  <th
+                    key={head}
+                    className="border-b border-blue-gray-100 bg-blue-gray-50 p-4"
                   >
-                    {head}
-                  </Typography>
-                </th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {freeCourses.map((fc, index) => {
-              const isLast = index === freeCourses.length - 1;
-              const classes = isLast
-                ? "p-4"
-                : "p-4 border-b border-blue-gray-50";
+                    <Typography
+                      variant="small"
+                      color="blue-gray"
+                      className="font-normal leading-none opacity-70"
+                    >
+                      {head}
+                    </Typography>
+                  </th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {freeCourses.map((fc, index) => {
+                const isLast = index === freeCourses.length - 1;
+                const classes = isLast
+                  ? "p-4"
+                  : "p-4 border-b border-blue-gray-50";
 
-              return (
-                <tr key={index}>
-                  <td className={classes}>
-                    <Typography
-                      variant="small"
-                      color="blue-gray"
-                      className="font-normal"
-                    >
-                      {fc?.title}
-                    </Typography>
-                  </td>
-                  <td className={classes}>
-                    <Typography
-                      variant="small"
-                      color="blue-gray"
-                      className="font-normal"
-                    >
-                      {fc?.url}
-                    </Typography>
-                  </td>
-                  <td className={classes}>
-                    <Button size="sm" className="bg-red-500" >Delete</Button>
-                  </td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
-      </Card>
+                return (
+                  <tr key={index}>
+                    <td className={classes}>
+                      <Typography
+                        variant="small"
+                        color="blue-gray"
+                        className="font-normal"
+                      >
+                        {fc?.title}
+                      </Typography>
+                    </td>
+                    <td className={classes}>
+                      <Typography
+                        variant="small"
+                        color="blue-gray"
+                        className="font-normal"
+                      >
+                        {fc?.url}
+                      </Typography>
+                    </td>
+                    <td className={classes}>
+                      <Button size="sm" className="bg-red-500">
+                        Delete
+                      </Button>
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </Card>
+      )}
     </section>
   );
 }

@@ -8,10 +8,12 @@ import {
   DialogFooter,
 } from "@material-tailwind/react";
 import { AiOutlineDelete } from "react-icons/ai";
+import Loader from "../components/Loader";
 
 export default function AddAddmission() {
   const accessToken = localStorage.getItem("accessToken");
-  const [loading, setPostLoading] = useState();
+  const [loading, setPostLoading] = useState(false);
+  const [getLoading, setGetLoading] = useState(false);
   const [courses, setCourses] = useState([]);
   const [course, setCourseId] = useState("");
   const [open, setOpen] = useState(false);
@@ -70,6 +72,7 @@ export default function AddAddmission() {
     "Thursday",
     "Friday",
   ];
+  
   //add addmission
   const handaleSubmit = async (e) => {
     e.preventDefault();
@@ -128,6 +131,7 @@ export default function AddAddmission() {
   useEffect(() => {
     const fetchData = async () => {
       try {
+        setGetLoading(true);
         const response = await fetch(
           "https://api.pathshalait.com/api/v1/admissions",
           {
@@ -149,11 +153,12 @@ export default function AddAddmission() {
       } catch (error) {
         console.log("Error making GET request: " + error);
       } finally {
+        setGetLoading(false);
       }
     };
 
     fetchData();
-  }, []);
+  }, [loading]);
 
   return (
     <section className="px-10 py-10">
@@ -269,54 +274,59 @@ export default function AddAddmission() {
 
       <div className="mt-10">
         <h1 className="font-semibold text-xl">Admission notice list:</h1>
-        <div className="mt-5 grid lg:grid-cols-2 gap-5">
-          {admissionData?.map((a, i) => (
-            <div key={i} className="shadow rounded p-5">
-              <div className="flex justify-between">
-                <p className="font-semibold">Notice Number: 0{i + 1}</p>
-                <Button size="sm" className="bg-blue-500">
-                  Update
-                </Button>
+
+        {getLoading ? (
+          <Loader />
+        ) : (
+          <div className="mt-5 grid lg:grid-cols-2 gap-5">
+            {admissionData?.map((a, i) => (
+              <div key={i} className="shadow rounded p-5">
+                <div className="flex justify-between">
+                  <p className="font-semibold">Notice Number: 0{i + 1}</p>
+                  <Button size="sm" className="bg-blue-500">
+                    Update
+                  </Button>
+                </div>
+                <div className="h-0.5 bg-blue-500 my-2.5"></div>
+                <p>
+                  {" "}
+                  <span className="font-semibold">Course Name:</span>{" "}
+                  {a?.course?.name}
+                </p>
+                <p>
+                  {" "}
+                  <span className="font-semibold">Class Start Time:</span>{" "}
+                  {a?.class_start_time}
+                </p>
+                <p>
+                  {" "}
+                  <span className="font-semibold">Class End Time:</span>{" "}
+                  {a?.class_end_time}
+                </p>
+                <p>
+                  {" "}
+                  <span className="font-semibold">Class End Time:</span>{" "}
+                  {a?.class_end_time}
+                </p>
+                <p>
+                  {" "}
+                  <span className="font-semibold">Class Start Date:</span>{" "}
+                  {a?.start_date}
+                </p>
+                <p>
+                  {" "}
+                  <span className="font-semibold">Class End Date:</span>{" "}
+                  {a?.end_date}
+                </p>
+                <p>
+                  {" "}
+                  <span className="font-semibold">Class Days:</span>{" "}
+                  {a?.weekly_days}
+                </p>
               </div>
-              <div className="h-0.5 bg-blue-500 my-2.5"></div>
-              <p>
-                {" "}
-                <span className="font-semibold">Course Name:</span>{" "}
-                {a?.course?.name}
-              </p>
-              <p>
-                {" "}
-                <span className="font-semibold">Class Start Time:</span>{" "}
-                {a?.class_start_time}
-              </p>
-              <p>
-                {" "}
-                <span className="font-semibold">Class End Time:</span>{" "}
-                {a?.class_end_time}
-              </p>
-              <p>
-                {" "}
-                <span className="font-semibold">Class End Time:</span>{" "}
-                {a?.class_end_time}
-              </p>
-              <p>
-                {" "}
-                <span className="font-semibold">Class Start Date:</span>{" "}
-                {a?.start_date}
-              </p>
-              <p>
-                {" "}
-                <span className="font-semibold">Class End Date:</span>{" "}
-                {a?.end_date}
-              </p>
-              <p>
-                {" "}
-                <span className="font-semibold">Class Days:</span>{" "}
-                {a?.weekly_days}
-              </p>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        )}
       </div>
     </section>
   );

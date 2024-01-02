@@ -78,6 +78,29 @@ export default function AddTools() {
       setPostLoading(false);
     }
   };
+
+  // delete tools
+  const handleDelete = async (id) => {
+    try {
+      const apiUrl = `https://api.pathshalait.com/api/v1/tools/${id}`;
+
+      const response = await fetch(apiUrl, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          "Content-Type": "application/json",
+        },
+      });
+      if (response?.status === 200) {
+        const updatedTools = tools?.filter((c) => c.id !== id);
+        setTools(updatedTools);
+        window.alert("Tools deleted successfully!");
+      }
+    } catch (error) {
+      console.error("Error:", error);
+    } finally {
+    }
+  };
   return (
     <section className="px-5 py-10 min-h-screen lg:flex">
       <form
@@ -120,7 +143,7 @@ export default function AddTools() {
                     <img src={t?.icon} alt="" className="h-[50px] w-[50px]" />
                     <p>{t?.name}</p>
                   </div>
-                  <Button size="sm" className="bg-red-500">Delete</Button>
+                  <Button onClick={()=> handleDelete(t?.id)} size="sm" className="bg-red-500">Delete</Button>
                 </div>
               ))}
             </>

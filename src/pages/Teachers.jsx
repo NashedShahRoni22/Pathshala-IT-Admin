@@ -8,9 +8,11 @@ import {
   Typography,
 } from "@material-tailwind/react";
 import React, { useEffect, useState } from "react";
+import Loader from "../components/Loader";
 
 export default function Teachers() {
   const [postLoading, setPostLoading] = useState(false);
+  const [getLoading, setGetLoading] = useState(false);
   const [teachers, setTeachers] = useState([]);
   const [designations, setDesignations] = useState([]);
   const [designation, setDesignation] = useState("");
@@ -55,8 +57,7 @@ export default function Teachers() {
       if (responseData.status === true) {
         window.alert("Teacher Added Successfully!");
         e.target.reset();
-      }
-      else{
+      } else {
         window.alert("This phone number can't be use.");
         e.target.reset();
       }
@@ -71,6 +72,7 @@ export default function Teachers() {
   useEffect(() => {
     const fetchData = async () => {
       try {
+        setGetLoading(true);
         const response = await fetch(
           "https://api.pathshalait.com/api/v1/all-user/teacher",
           {
@@ -92,6 +94,7 @@ export default function Teachers() {
       } catch (error) {
         console.log("Error making GET request: " + error);
       } finally {
+        setGetLoading(false);
       }
     };
 
@@ -181,72 +184,77 @@ export default function Teachers() {
           Submit {postLoading && <Spinner className="h-4 w-4" />}
         </Button>
       </form>
-
-      <Card className="h-full w-full overflow-scroll mt-10">
-        <table className="w-full min-w-max table-auto text-left">
-          <thead>
-            <tr>
-              {TABLE_HEAD.map((head) => (
-                <th
-                  key={head}
-                  className="border-b border-blue-gray-100 bg-blue-gray-50 p-4"
-                >
-                  <Typography
-                    variant="small"
-                    color="blue-gray"
-                    className="font-normal leading-none opacity-70"
+      {getLoading ? (
+        <Loader />
+      ) : (
+        <Card className="h-full w-full overflow-scroll mt-10">
+          <table className="w-full min-w-max table-auto text-left">
+            <thead>
+              <tr>
+                {TABLE_HEAD.map((head) => (
+                  <th
+                    key={head}
+                    className="border-b border-blue-gray-100 bg-blue-gray-50 p-4"
                   >
-                    {head}
-                  </Typography>
-                </th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {teachers?.map((b, index) => {
-              const isLast = index === teachers.length - 1;
-              const classes = isLast
-                ? "p-4"
-                : "p-4 border-b border-blue-gray-50";
+                    <Typography
+                      variant="small"
+                      color="blue-gray"
+                      className="font-normal leading-none opacity-70"
+                    >
+                      {head}
+                    </Typography>
+                  </th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {teachers?.map((b, index) => {
+                const isLast = index === teachers.length - 1;
+                const classes = isLast
+                  ? "p-4"
+                  : "p-4 border-b border-blue-gray-50";
 
-              return (
-                <tr key={index}>
-                  <td className={classes}>
-                    <Typography
-                      variant="small"
-                      color="blue-gray"
-                      className="font-normal"
-                    >
-                      {b?.name}
-                    </Typography>
-                  </td>
-                  <td className={classes}>
-                    <Typography
-                      variant="small"
-                      color="blue-gray"
-                      className="font-normal"
-                    >
-                      {b?.designation} 
-                    </Typography>
-                  </td>
-                  <td className={classes}>
-                    <Typography
-                      variant="small"
-                      color="blue-gray"
-                      className="font-normal"
-                    >
-                      {b?.phone_number}
-                    </Typography>
-                  </td>
-                  <td className={classes}>
-                    <Button size="sm" className="bg-orange-500" >Deactive</Button>
-                  </td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
-      </Card>
+                return (
+                  <tr key={index}>
+                    <td className={classes}>
+                      <Typography
+                        variant="small"
+                        color="blue-gray"
+                        className="font-normal"
+                      >
+                        {b?.name}
+                      </Typography>
+                    </td>
+                    <td className={classes}>
+                      <Typography
+                        variant="small"
+                        color="blue-gray"
+                        className="font-normal"
+                      >
+                        {b?.designation}
+                      </Typography>
+                    </td>
+                    <td className={classes}>
+                      <Typography
+                        variant="small"
+                        color="blue-gray"
+                        className="font-normal"
+                      >
+                        {b?.phone_number}
+                      </Typography>
+                    </td>
+                    <td className={classes}>
+                      <Button size="sm" className="bg-orange-500">
+                        Deactive
+                      </Button>
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </Card>
+      )}
     </section>
   );
 }

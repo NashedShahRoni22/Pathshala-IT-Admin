@@ -47,7 +47,12 @@ export default function WishBirthday() {
               No student to wish today!
             </p>
           ) : (
-            <Card className="h-full w-full overflow-scroll mt-10">
+            <Card className="h-full w-full mt-10">
+              <div className="mb-5 flex justify-end">
+                <Button className="bg-blue-500">
+                  Wish All
+                </Button>
+              </div>
               <table className="w-full min-w-max table-auto text-left">
                 <thead>
                   <tr>
@@ -93,9 +98,6 @@ export default function WishBirthday() {
                           >
                             {student?.phone_number}
                           </Typography>
-                        </td>
-                        <td className={classes}>
-                          <Button>Wish</Button>
                         </td>
                       </tr>
                     );

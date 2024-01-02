@@ -25,6 +25,7 @@ import BatchDetails from "./pages/BatchDetails";
 import AddSuccessStories from "./pages/AddSuccessStories";
 import SendSMS from "./pages/SendSMS";
 import AddFreeCourse from "./pages/AddFreeCourse";
+import Blogs from "./pages/Blogs";
 
 export default function App() {
   const router = createBrowserRouter([
@@ -127,6 +128,10 @@ export default function App() {
         {
           path: "/root/batch_details/:id",
           element: <BatchDetails />,
+        },
+        {
+          path: "/root/add_blogs",
+          element: <Blogs />,
         },
       ],
     },

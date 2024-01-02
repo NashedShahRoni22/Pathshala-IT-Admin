@@ -6,6 +6,7 @@ import {
   Spinner,
 } from "@material-tailwind/react";
 import React, { useEffect, useState } from "react";
+import Loader from "../components/Loader";
 
 export default function AddSuccessStories() {
   const accessToken = localStorage.getItem("accessToken");
@@ -15,6 +16,7 @@ export default function AddSuccessStories() {
   const [image, setImage] = useState(null);
   const [loading, setLoading] = useState(false);
   const [updateLoading, setUpdateLoading] = useState(false);
+  const [getLoading, setGetLoading] = useState(false);
   // get course
   useEffect(() => {
     const fetchData = async () => {
@@ -75,7 +77,6 @@ export default function AddSuccessStories() {
       const responseData = await response.json();
       if (responseData.status === true) {
         window.alert("Stories added successfully!");
-        window.location.reload();
       } else {
         console.log(
           "Error making POST request. Status code: " + response.status
@@ -92,6 +93,7 @@ export default function AddSuccessStories() {
   useEffect(() => {
     const fetchData = async () => {
       try {
+        setGetLoading(true);
         const response = await fetch(
           "https://api.pathshalait.com/api/v1/success_stories",
           {
@@ -113,13 +115,14 @@ export default function AddSuccessStories() {
       } catch (error) {
         console.log("Error making GET request: " + error);
       } finally {
+        setGetLoading(false);
       }
     };
 
     fetchData();
-  }, [updateLoading]);
+  }, [loading, updateLoading]);
 
-  //add stories
+  //deactive stories
   const deactiveStory = async (id, type) => {
     const formData = new FormData();
     if (type === "inactive") {
@@ -157,12 +160,14 @@ export default function AddSuccessStories() {
   };
 
   return (
-    <section className="px-5 py-10">
+    <section className="px-10 py-10">
       <form onSubmit={handaleSubmit} className="shadow p-5 rounded-xl lg:w-1/3">
         <h1 className="text-xl font-semibold mb-5">Add Success Stories</h1>
         <div className="flex flex-col gap-2.5">
           <input type="file" onChange={(e) => setImage(e.target.files[0])} />
-          <p className="text-red-500 text-sm">Image size will be (585px * 340px)</p>
+          <p className="text-red-500 text-sm">
+            Image size will be (585px * 340px)
+          </p>
           <Select label="Select Course" onChange={(value) => setCourse(value)}>
             {courses.map((b) => (
               <Option value={b.id}>{b?.name}</Option>
@@ -178,36 +183,40 @@ export default function AddSuccessStories() {
           </Button>
         </div>
       </form>
-      <div className="mt-10 grid md:grid-cols-2 lg:grid-cols-4 gap-5">
-        {stories.map((s, i) => (
-          <div key={i} className="p-2 shadow-xl rounded-xl">
-            <img src={s?.thumbnail_image} />
-            
-            <div className="mt-5 flex justify-between">
-              {s?.status === 1 ? (
-                <Button
-                  onClick={() => deactiveStory(s?.id, "inactive")}
-                  className="bg-orange-500"
-                  size="sm"
-                >
-                  Deactive
+      {getLoading ? (
+        <Loader />
+      ) : (
+        <div className="mt-10 grid md:grid-cols-2 lg:grid-cols-4 gap-5">
+          {stories.map((s, i) => (
+            <div key={i} className="p-2 shadow-xl rounded-xl">
+              <img src={s?.thumbnail_image} />
+
+              <div className="mt-5 flex justify-between">
+                {s?.status === 1 ? (
+                  <Button
+                    onClick={() => deactiveStory(s?.id, "inactive")}
+                    className="bg-orange-500"
+                    size="sm"
+                  >
+                    Deactive
+                  </Button>
+                ) : (
+                  <Button
+                    onClick={() => deactiveStory(s?.id, "active")}
+                    className="bg-blue-500"
+                    size="sm"
+                  >
+                    Active
+                  </Button>
+                )}
+                <Button className="bg-red-500" size="sm">
+                  Delete
                 </Button>
-              ) : (
-                <Button
-                  onClick={() => deactiveStory(s?.id, "active")}
-                  className="bg-blue-500"
-                  size="sm"
-                >
-                  Active
-                </Button>
-              )}
-              <Button className="bg-red-500" size="sm">
-                Delete
-              </Button>
+              </div>
             </div>
-          </div>
-        ))}
-      </div>
+          ))}
+        </div>
+      )}
     </section>
   );
 }

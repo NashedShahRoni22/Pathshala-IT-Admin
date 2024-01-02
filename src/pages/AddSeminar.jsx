@@ -1,11 +1,13 @@
 import { Button, Card, Input, Typography } from "@material-tailwind/react";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import Loader from "../components/Loader";
 
 export default function AddSeminar() {
   const accessToken = localStorage.getItem("accessToken");
   const [loading, setPostLoading] = useState(false);
   const [seminars, setSeminars] = useState([]);
+  const [getLoading, setGetLoading] = useState(false);
 
   const TABLE_HEAD = ["Topic", "Date", "Start Time", "End Time", "Action"];
 
@@ -61,7 +63,7 @@ export default function AddSeminar() {
 
   //get seminar
   useEffect(() => {
-    // setDataLoading(true);
+    setGetLoading(true);
     const fetchData = async () => {
       try {
         const response = await fetch(
@@ -85,7 +87,7 @@ export default function AddSeminar() {
       } catch (error) {
         console.log("Error making GET request: " + error);
       } finally {
-        // setDataLoading(false);
+        setGetLoading(false);
       }
     };
 
@@ -94,10 +96,7 @@ export default function AddSeminar() {
 
   return (
     <section className="px-10 py-10">
-      <form
-        onSubmit={handaleSubmit}
-        className="lg:w-1/3 shadow rounded p-5"
-      >
+      <form onSubmit={handaleSubmit} className="lg:w-1/3 shadow rounded p-5">
         <h1 className="text-xl font-semibold">Add seminar</h1>
         <div className="mt-5 flex flex-col gap-2.5">
           <Input
@@ -132,83 +131,94 @@ export default function AddSeminar() {
       </form>
 
       <div className="mt-5">
-        <Card className="h-full w-full mt-5">
-          <table className="w-full min-w-max table-auto text-left">
-            <thead>
-              <tr>
-                {TABLE_HEAD.map((head) => (
-                  <th
-                    key={head}
-                    className="border-b border-blue-gray-100 bg-blue-gray-50 p-4"
-                  >
-                    <Typography
-                      variant="small"
-                      color="blue-gray"
-                      className="font-normal leading-none opacity-70"
+        {getLoading ? (
+          <Loader />
+        ) : (
+          <Card className="h-full w-full mt-5">
+            <table className="w-full min-w-max table-auto text-left">
+              <thead>
+                <tr>
+                  {TABLE_HEAD.map((head) => (
+                    <th
+                      key={head}
+                      className="border-b border-blue-gray-100 bg-blue-gray-50 p-4"
                     >
-                      {head}
-                    </Typography>
-                  </th>
-                ))}
-              </tr>
-            </thead>
-            <tbody>
-              {seminars.map((s, index) => {
-                const isLast = index === seminars.length - 1;
-                const classes = isLast
-                  ? "p-4"
-                  : "p-4 border-b border-blue-gray-50";
+                      <Typography
+                        variant="small"
+                        color="blue-gray"
+                        className="font-normal leading-none opacity-70"
+                      >
+                        {head}
+                      </Typography>
+                    </th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody>
+                {seminars.map((s, index) => {
+                  const isLast = index === seminars.length - 1;
+                  const classes = isLast
+                    ? "p-4"
+                    : "p-4 border-b border-blue-gray-50";
 
-                return (
-                  <tr key={index}>
-                    <td className={classes}>
-                      <Typography
-                        variant="small"
-                        color="blue-gray"
-                        className="font-normal"
-                      >
-                        {s?.subject}
-                      </Typography>
-                    </td>
-                    <td className={classes}>
-                      <Typography
-                        variant="small"
-                        color="blue-gray"
-                        className="font-normal"
-                      >
-                        {s?.start_date}
-                      </Typography>
-                    </td>
-                    <td className={classes}>
-                      <Typography
-                        variant="small"
-                        color="blue-gray"
-                        className="font-normal"
-                      >
-                        {s?.seminar_start_time}
-                      </Typography>
-                    </td>
-                    <td className={classes}>
-                      <Typography
-                        as="a"
-                        href="#"
-                        variant="small"
-                        color="blue-gray"
-                        className="font-medium"
-                      >
-                        {s?.seminar_end_time}
-                      </Typography>
-                    </td>
-                    <td className={classes}>
-                        <Link to={`/root/seminar_registered_user/${s?.id}`} className="px-4 py-2 bg-blue-500 text-white shadow rounded">View</Link>
-                        <button className="bg-red-500 px-4 py-1.5 ml-2 text-white shadow rounded">Delete</button>
-                    </td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
-        </Card>
+                  return (
+                    <tr key={index}>
+                      <td className={classes}>
+                        <Typography
+                          variant="small"
+                          color="blue-gray"
+                          className="font-normal"
+                        >
+                          {s?.subject}
+                        </Typography>
+                      </td>
+                      <td className={classes}>
+                        <Typography
+                          variant="small"
+                          color="blue-gray"
+                          className="font-normal"
+                        >
+                          {s?.start_date}
+                        </Typography>
+                      </td>
+                      <td className={classes}>
+                        <Typography
+                          variant="small"
+                          color="blue-gray"
+                          className="font-normal"
+                        >
+                          {s?.seminar_start_time}
+                        </Typography>
+                      </td>
+                      <td className={classes}>
+                        <Typography
+                          as="a"
+                          href="#"
+                          variant="small"
+                          color="blue-gray"
+                          className="font-medium"
+                        >
+                          {s?.seminar_end_time}
+                        </Typography>
+                      </td>
+                      <td className={classes}>
+                        <Link
+                          to={`/root/seminar_registered_user/${s?.id}`}
+                          className="px-4 py-2 bg-blue-500 text-white shadow rounded"
+                        >
+                          View
+                        </Link>
+                        <button className="bg-red-500 px-4 py-1.5 ml-2 text-white shadow rounded">
+                          Delete
+                        </button>
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </Card>
+        )}
       </div>
     </section>
   );

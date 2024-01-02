@@ -16,6 +16,7 @@ import {
 
 import { HiOutlinePresentationChartLine } from "react-icons/hi";
 import { FiPackage, FiUserPlus, FiUsers } from "react-icons/fi";
+import { FaBlog } from "react-icons/fa";
 import {
   BsChevronDown,
   BsFillCollectionPlayFill,
@@ -172,6 +173,7 @@ export default function Sidebar() {
             ))}
           </div>
         )}
+
       </div>
       <List>
         <Link to="/root">
@@ -450,6 +452,14 @@ export default function Sidebar() {
                   <BsPlusCircle className="h-5 w-5" />
                 </ListItemPrefix>
                 Seminar
+              </ListItem>
+            </Link>
+            <Link to="/root/add_blogs">
+              <ListItem>
+                <ListItemPrefix>
+                  <FaBlog className="h-5 w-5" />
+                </ListItemPrefix>
+                Blogs
               </ListItem>
             </Link>
             <Link to="/root/send_sms">

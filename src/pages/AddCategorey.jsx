@@ -1,13 +1,22 @@
-import { Button, Input } from "@material-tailwind/react";
 import React, { useEffect, useState } from "react";
+import { Button, Dialog, DialogBody, Input } from "@material-tailwind/react";
 
 export default function AddCategorey() {
   const [postLoading, setPostLoading] = useState(false);
+  const [updateLoading, setUpdateLoading] = useState(false);
   const [dataLoading, setDataLoading] = useState(false);
   const [icon, setIcon] = useState(null);
   const [name, setName] = useState("");
   const accessToken = localStorage.getItem("accessToken");
   const [categories, setCategories] = useState([]);
+  //handle modal
+  const [modalData, setModalData] = useState({});
+  const [open, setOpen] = useState(false);
+  const handleOpen = (data) => {
+    setOpen(!open);
+    setModalData(data);
+  };
+
   // get categories
   useEffect(() => {
     setDataLoading(true);
@@ -40,7 +49,7 @@ export default function AddCategorey() {
     };
 
     fetchData();
-  }, [postLoading]);
+  }, [postLoading, updateLoading]);
 
   //add categorey
   const handleAddCategorey = async () => {
@@ -65,7 +74,7 @@ export default function AddCategorey() {
 
       if (response.ok) {
         const responseData = await response.json();
-        console.log(responseData);
+        // console.log(responseData);
         window.alert("Categorey Added Successfully!");
       } else {
         console.log(
@@ -78,6 +87,46 @@ export default function AddCategorey() {
       setPostLoading(false);
     }
   };
+
+  //update categorey
+  const handleUpdateCategorey = async (id) => {
+    const formData = new FormData();
+    formData.append("icon", icon);
+    formData.append("name", name);
+    formData.append("_method", "put");
+  
+    try {
+      setUpdateLoading(true);
+      // Create headers with the Authorization token
+      const headers = new Headers({
+        Authorization: `Bearer ${accessToken}`,
+      });
+      // Make a POST request using the fetch method
+      const response = await fetch(
+        `https://api.pathshalait.com/api/v1/categories/${id}`,
+        {
+          method: "POST",
+          headers,
+          body: formData,
+        }
+      );
+      const responseData = await response.json();
+
+      if (responseData.status === true) {
+        window.alert("Updated Added Successfully!");
+        setOpen(false);
+      } else {
+        console.log(
+          "Error making POST request. Status code: " + response.status
+        );
+      }
+    } catch (error) {
+      console.log("Error making POST request: " + error);
+    } finally {
+      setUpdateLoading(false);
+    }
+  };
+
   return (
     <section className="px-5 py-10 min-h-screen lg:flex">
       <form className="lg:w-1/3 shadow rounded-xl p-5 h-fit flex flex-col gap-4">
@@ -118,12 +167,57 @@ export default function AddCategorey() {
                     />
                     <p>{c?.name}</p>
                   </div>
-                  <Button size="sm" className="bg-blue-500">Update</Button>
+                  <Button
+                    onClick={() => handleOpen(c)}
+                    size="sm"
+                    className="bg-blue-500"
+                  >
+                    Update
+                  </Button>
                 </div>
               ))}
             </div>
           )}
         </div>
+        <Dialog open={open} handler={handleOpen}>
+          <DialogBody>
+            <form className="flex flex-col gap-5">
+              <p className="text-black font-semibold">Update {modalData?.name}</p>
+              <input
+                name="icon"
+                type="file"
+                onChange={(e) => setIcon(e.target.files[0])}
+              />
+              <Input
+                name="name"
+                color="blue"
+                type="text"
+                label="Categorey Name"
+                defaultValue={modalData?.name}
+                onChange={(e) => setName(e.target.value)}
+              />
+              <div>
+                <Button
+                  onClick={() => handleUpdateCategorey(modalData?.id)}
+                  variant="gradient"
+                  color="blue"
+                  size="sm"
+                >
+                  <span>Update</span>
+                </Button>
+                <Button
+                  variant="text"
+                  color="red"
+                  onClick={handleOpen}
+                  className="mr-1"
+                  size="sm"
+                >
+                  <span>Cancel</span>
+                </Button>
+              </div>
+            </form>
+          </DialogBody>
+        </Dialog>
       </div>
     </section>
   );
