@@ -3,7 +3,6 @@ import { Button, Dialog, DialogBody, Input } from "@material-tailwind/react";
 
 export default function AddCategorey() {
   const [postLoading, setPostLoading] = useState(false);
-  const [updateLoading, setUpdateLoading] = useState(false);
   const [dataLoading, setDataLoading] = useState(false);
   const [icon, setIcon] = useState(null);
   const [name, setName] = useState("");
@@ -49,7 +48,7 @@ export default function AddCategorey() {
     };
 
     fetchData();
-  }, [postLoading, updateLoading]);
+  }, [postLoading]);
 
   //add categorey
   const handleAddCategorey = async () => {
@@ -96,7 +95,7 @@ export default function AddCategorey() {
     formData.append("_method", "put");
   
     try {
-      setUpdateLoading(true);
+      setPostLoading(true);
       // Create headers with the Authorization token
       const headers = new Headers({
         Authorization: `Bearer ${accessToken}`,
@@ -113,7 +112,7 @@ export default function AddCategorey() {
       const responseData = await response.json();
 
       if (responseData.status === true) {
-        window.alert("Updated Added Successfully!");
+        window.alert("Categorey updated successfully!");
         setOpen(false);
       } else {
         console.log(
@@ -123,7 +122,7 @@ export default function AddCategorey() {
     } catch (error) {
       console.log("Error making POST request: " + error);
     } finally {
-      setUpdateLoading(false);
+      setPostLoading(false);
     }
   };
 
@@ -136,6 +135,7 @@ export default function AddCategorey() {
           type="file"
           onChange={(e) => setIcon(e.target.files[0])}
         />
+        <p className="text-red-500">Image size will be (50px * 50px)</p>
         <Input
           name="name"
           color="blue"

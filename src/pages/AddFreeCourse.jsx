@@ -126,8 +126,8 @@ export default function AddFreeCourse() {
   const TABLE_HEAD = ["Title", "URL", ""];
   return (
     <section className="px-10 py-10 flex flex-col gap-10 lg:flex-row">
-      <form onSubmit={handaleSubmit} className="shadow p-5 rounded-xl lg:w-1/3">
-        <h1 className="text-xl font-semibold mb-5">Add Free Course</h1>
+      <form onSubmit={handaleSubmit} className="shadow p-5 rounded-xl lg:w-1/2">
+        <h1 className="text-xl font-semibold mb-5">Add Free Class Video</h1>
         <div className="flex flex-col gap-2.5">
           <Select label="Select Categorey" onChange={(value) => setCourse(value)}>
             {courses.map((b) => (
@@ -148,7 +148,7 @@ export default function AddFreeCourse() {
       {getLoading ? (
         <Loader />
       ) : (
-        <Card className="h-full w-full">
+        <Card className="h-full w-full lg:w-1/2">
           <table className="w-full min-w-max table-auto text-left">
             <thead>
               <tr>

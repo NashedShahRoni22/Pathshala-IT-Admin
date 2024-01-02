@@ -17,16 +17,14 @@ import {
 import { HiOutlinePresentationChartLine } from "react-icons/hi";
 import { FiPackage, FiUserPlus, FiUsers } from "react-icons/fi";
 import { FaBlog } from "react-icons/fa";
+import { TbFreeRights } from "react-icons/tb";
+import { VscGitPullRequestGoToChanges } from "react-icons/vsc";
 import {
   BsChevronDown,
   BsFillCollectionPlayFill,
   BsPlusCircle,
 } from "react-icons/bs";
-import {
-  AiFillCustomerService,
-  AiOutlineOrderedList,
-  AiOutlinePlus,
-} from "react-icons/ai";
+import { AiOutlineOrderedList, AiOutlinePlus } from "react-icons/ai";
 import { FaCloudUploadAlt } from "react-icons/fa";
 import { GiConvergenceTarget } from "react-icons/gi";
 import { SiGoogleclassroom } from "react-icons/si";
@@ -173,7 +171,6 @@ export default function Sidebar() {
             ))}
           </div>
         )}
-
       </div>
       <List>
         <Link to="/root">
@@ -308,59 +305,6 @@ export default function Sidebar() {
                 </List>
               </AccordionBody>
             </Accordion>
-            {/* <Accordion
-              open={open === 3}
-              icon={
-                <BsChevronDown
-                  strokeWidth={1}
-                  className={`mx-auto h-4 w-4 transition-transform ${
-                    open === 2 ? "rotate-180" : ""
-                  }`}
-                />
-              }
-            >
-              <ListItem className="p-0" selected={open === 3}>
-                <AccordionHeader
-                  onClick={() => handleOpen(3)}
-                  className="border-b-0 p-3"
-                >
-                  <ListItemPrefix>
-                    <AiFillCustomerService className="h-5 w-5" />
-                  </ListItemPrefix>
-                  <Typography color="blue-gray" className="mr-auto font-normal">
-                    Manage Service
-                  </Typography>
-                </AccordionHeader>
-              </ListItem>
-              <AccordionBody className="py-1">
-                <List className="p-0 ml-5">
-                  <Link to="/root/categorey">
-                    <ListItem>
-                      <ListItemPrefix>
-                        <AiOutlinePlus className="h-5 w-5" />
-                      </ListItemPrefix>
-                      Add Categorey
-                    </ListItem>
-                  </Link>
-                  <Link to="/root/add_service">
-                    <ListItem>
-                      <ListItemPrefix>
-                        <AiOutlinePlus className="h-5 w-5" />
-                      </ListItemPrefix>
-                      Add Service
-                    </ListItem>
-                  </Link>
-                  <Link to="/root/all_course">
-                    <ListItem>
-                      <ListItemPrefix>
-                        <GiConvergenceTarget className="h-5 w-5" />
-                      </ListItemPrefix>
-                      Get Services
-                    </ListItem>
-                  </Link>
-                </List>
-              </AccordionBody>
-            </Accordion> */}
             <Accordion
               open={open === 4}
               icon={
@@ -422,6 +366,51 @@ export default function Sidebar() {
                 </List>
               </AccordionBody>
             </Accordion>
+            <Accordion
+              open={open === 5}
+              icon={
+                <BsChevronDown
+                  strokeWidth={1}
+                  className={`mx-auto h-4 w-4 transition-transform ${
+                    open === 5 ? "rotate-180" : ""
+                  }`}
+                />
+              }
+            >
+              <ListItem className="p-0" selected={open === 5}>
+                <AccordionHeader
+                  onClick={() => handleOpen(5)}
+                  className="border-b-0 p-3"
+                >
+                  <ListItemPrefix>
+                    <TbFreeRights className="h-5 w-5" />
+                  </ListItemPrefix>
+                  <Typography color="blue-gray" className="mr-auto font-normal">
+                    Free
+                  </Typography>
+                </AccordionHeader>
+              </ListItem>
+              <AccordionBody className="py-1">
+                <List className="p-0 ml-5">
+                  <Link to="/root/add_free_course">
+                    <ListItem>
+                      <ListItemPrefix>
+                        <BsPlusCircle className="h-5 w-5" />
+                      </ListItemPrefix>
+                      Course Material
+                    </ListItem>
+                  </Link>
+                  <Link to="/root/free_class_request">
+                    <ListItem>
+                      <ListItemPrefix>
+                        <VscGitPullRequestGoToChanges className="h-5 w-5" />
+                      </ListItemPrefix>
+                      Class Request
+                    </ListItem>
+                  </Link>
+                </List>
+              </AccordionBody>
+            </Accordion>
             <Link to="/root/add_addmission">
               <ListItem>
                 <ListItemPrefix>
@@ -430,14 +419,7 @@ export default function Sidebar() {
                 Addmission
               </ListItem>
             </Link>
-            <Link to="/root/add_free_course">
-              <ListItem>
-                <ListItemPrefix>
-                  <BsPlusCircle className="h-5 w-5" />
-                </ListItemPrefix>
-                Free Course
-              </ListItem>
-            </Link>
+
             <Link to="/root/add_success_stories">
               <ListItem>
                 <ListItemPrefix>

@@ -26,6 +26,7 @@ import AddSuccessStories from "./pages/AddSuccessStories";
 import SendSMS from "./pages/SendSMS";
 import AddFreeCourse from "./pages/AddFreeCourse";
 import Blogs from "./pages/Blogs";
+import FreeClassRequestList from "./pages/FreeClassRequestList";
 
 export default function App() {
   const router = createBrowserRouter([
@@ -132,6 +133,10 @@ export default function App() {
         {
           path: "/root/add_blogs",
           element: <Blogs />,
+        },
+        {
+          path: "/root/free_class_request",
+          element: <FreeClassRequestList />,
         },
       ],
     },

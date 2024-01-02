@@ -15,7 +15,6 @@ export default function AddSuccessStories() {
   const [course, setCourse] = useState("");
   const [image, setImage] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [updateLoading, setUpdateLoading] = useState(false);
   const [getLoading, setGetLoading] = useState(false);
   // get course
   useEffect(() => {
@@ -120,7 +119,7 @@ export default function AddSuccessStories() {
     };
 
     fetchData();
-  }, [loading, updateLoading]);
+  }, [loading]);
 
   //deactive stories
   const deactiveStory = async (id, type) => {
@@ -134,7 +133,7 @@ export default function AddSuccessStories() {
     formData.append("_method", "put");
 
     try {
-      setUpdateLoading(true);
+      setLoading(true);
       const headers = new Headers({
         Authorization: `Bearer ${accessToken}`,
       });
@@ -155,7 +154,30 @@ export default function AddSuccessStories() {
     } catch (error) {
       console.log("Error making POST request: " + error);
     } finally {
-      setUpdateLoading(false);
+      setLoading(false);
+    }
+  };
+
+  //delete stories
+  const handleDelete = async (id) => {
+    try {
+      const apiUrl = `https://api.pathshalait.com/api/v1/success_stories/${id}`;
+
+      const response = await fetch(apiUrl, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          "Content-Type": "application/json",
+        },
+      });
+      if (response?.status === 200) {
+        const updatedStories = stories?.filter((c) => c.id !== id);
+        setStories(updatedStories);
+        window.alert("Story deleted successfully!");
+      }
+    } catch (error) {
+      console.error("Error:", error);
+    } finally {
     }
   };
 
@@ -195,7 +217,7 @@ export default function AddSuccessStories() {
                 {s?.status === 1 ? (
                   <Button
                     onClick={() => deactiveStory(s?.id, "inactive")}
-                    className="bg-orange-500"
+                    className="bg-blue-500"
                     size="sm"
                   >
                     Deactive
@@ -209,7 +231,7 @@ export default function AddSuccessStories() {
                     Active
                   </Button>
                 )}
-                <Button className="bg-red-500" size="sm">
+                <Button onClick={()=> handleDelete(s?.id)} className="bg-red-500" size="sm">
                   Delete
                 </Button>
               </div>

@@ -253,6 +253,7 @@ export default function AddCourse() {
           type="file"
           className="mt-5"
         />
+        <p className="text-red-500 mt-2.5">Image size will be (380px * 240px)</p>
 
         <div className="grid gap-5 md:grid-cols-2 mt-5">
           <Select

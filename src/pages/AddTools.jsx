@@ -117,6 +117,7 @@ export default function AddTools() {
           <Option value="profession">Profession</Option>
         </Select>
         <input type="file" onChange={(e) => setIcon(e.target.files[0])}></input>
+        <p className="text-red-500">Image size will be (50px * 50px)</p>
         <Input
           color="blue"
           type="text"

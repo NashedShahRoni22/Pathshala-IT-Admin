@@ -18,7 +18,8 @@ export default function AddAddmission() {
   const [course, setCourseId] = useState("");
   const [open, setOpen] = useState(false);
   const [weekDays, setWeekDays] = useState([]);
-  const [admissionData, setAdmissionData] = useState(null);
+  const [admissionData, setAdmissionData] = useState([]);
+  // console.log(admissionData);
 
   const handaleAddDay = (value) => {
     if (value && !weekDays.includes(value)) {
@@ -72,7 +73,7 @@ export default function AddAddmission() {
     "Thursday",
     "Friday",
   ];
-  
+
   //add addmission
   const handaleSubmit = async (e) => {
     e.preventDefault();
@@ -127,6 +128,66 @@ export default function AddAddmission() {
     }
   };
 
+  //update addmission status
+  const handaleStatus = async (id,status) => {
+    const formData = new FormData();
+    formData.append("_method", "put");
+    formData.append("status", status);
+
+    try {
+      setPostLoading(true);
+      // Create headers with the Authorization token
+      const headers = new Headers({
+        Authorization: `Bearer ${accessToken}`,
+      });
+      // Make a POST request using the fetch method
+      const response = await fetch(
+        `https://api.pathshalait.com/api/v1/admissions/${id}`,
+        {
+          method: "POST",
+          headers,
+          body: formData,
+        }
+      );
+
+      const responseData = await response.json();
+      if (responseData.status === true) {
+        window.alert("Admission updated successfully!");
+      } else {
+        console.log(
+          "Error making POST request. Status code: " + response.status
+        );
+      }
+    } catch (error) {
+      console.log("Error making POST request: " + error);
+    } finally {
+      setPostLoading(false);
+    }
+  };
+
+  //delete addmission
+  const handleDelete = async (id) => {
+    try {
+      const apiUrl = `https://api.pathshalait.com/api/v1/admissions/${id}`;
+
+      const response = await fetch(apiUrl, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          "Content-Type": "application/json",
+        },
+      });
+      if (response?.status === 200) {
+        const updatedAdmissions = admissionData?.filter((c) => c.id !== id);
+        setAdmissionData(updatedAdmissions);
+        window.alert("Addmission notice deleted successfully!");
+      }
+    } catch (error) {
+      console.error("Error:", error);
+    } finally {
+    }
+  };
+
   //get addmission
   useEffect(() => {
     const fetchData = async () => {
@@ -162,7 +223,7 @@ export default function AddAddmission() {
 
   return (
     <section className="px-10 py-10">
-      <form onSubmit={handaleSubmit} className="lg:w-1/3 shadow rounded-xl p-5">
+      <form onSubmit={handaleSubmit} className="lg:w-1/2 shadow rounded-xl p-5">
         <h1 className="text-xl font-semibold">Add addmission</h1>
         <div className="mt-5 flex flex-col gap-2.5">
           <Select
@@ -281,12 +342,8 @@ export default function AddAddmission() {
           <div className="mt-5 grid lg:grid-cols-2 gap-5">
             {admissionData?.map((a, i) => (
               <div key={i} className="shadow rounded p-5">
-                <div className="flex justify-between">
-                  <p className="font-semibold">Notice Number: 0{i + 1}</p>
-                  <Button size="sm" className="bg-blue-500">
-                    Update
-                  </Button>
-                </div>
+                <p className="font-semibold">Notice Number: 0{i + 1}</p>
+
                 <div className="h-0.5 bg-blue-500 my-2.5"></div>
                 <p>
                   {" "}
@@ -323,6 +380,20 @@ export default function AddAddmission() {
                   <span className="font-semibold">Class Days:</span>{" "}
                   {a?.weekly_days}
                 </p>
+                <div className="flex gap-2.5 mt-5">
+                  {a?.status === "inactive" ? (
+                    <Button onClick={()=> handaleStatus(a?.id, "active")} size="sm" className="bg-blue-500">
+                      Active
+                    </Button>
+                  ) : (
+                    <Button onClick={()=> handaleStatus(a?.id, "inactive")} size="sm" className="bg-blue-500">
+                      Deactive
+                    </Button>
+                  )}
+                  <Button onClick={()=> handleDelete(a?.id)} size="sm" className="bg-red-500">
+                    Delete
+                  </Button>
+                </div>
               </div>
             ))}
           </div>

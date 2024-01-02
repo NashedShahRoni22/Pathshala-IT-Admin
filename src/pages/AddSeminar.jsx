@@ -60,6 +60,28 @@ export default function AddSeminar() {
       setPostLoading(false);
     }
   };
+  //delete seminar
+  const handleDelete = async (id) => {
+    try {
+      const apiUrl = `https://api.pathshalait.com/api/v1/seminars/${id}`;
+
+      const response = await fetch(apiUrl, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          "Content-Type": "application/json",
+        },
+      });
+      if (response?.status === 200) {
+        const updatedSeminars = seminars?.filter((c) => c.id !== id);
+        setSeminars(updatedSeminars);
+        window.alert("Seminar deleted successfully!");
+      }
+    } catch (error) {
+      console.error("Error:", error);
+    } finally {
+    }
+  };
 
   //get seminar
   useEffect(() => {
@@ -208,7 +230,10 @@ export default function AddSeminar() {
                         >
                           View
                         </Link>
-                        <button className="bg-red-500 px-4 py-1.5 ml-2 text-white shadow rounded">
+                        <button
+                          onClick={() => handleDelete(s?.id)}
+                          className="bg-red-500 px-4 py-1.5 ml-2 text-white shadow rounded"
+                        >
                           Delete
                         </button>
                       </td>
